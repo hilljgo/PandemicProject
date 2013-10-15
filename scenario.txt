@@ -1,0 +1,113 @@
+-----START OF GAME-----
+
+Infected Cards are drawn - First 3 get 3 infection cubes, next 3 get 2 infection cubes, last 3 get 1 infection cube
+
+Infected Cities:
+San Francisco (3 yellow cubes)
+Chicago (3 blue cubes)
+London (3 blue cubes)
+Los Angeles (2 yellow cubes)
+Sau Paulo (2 yellow cubes)
+Sydney (2 red cubes)
+Miami (1 yellow cube)
+Seoul (1 red cube)
+Tokyo (1 red cube)
+
+
+Turns
+
+---Player 1---
+Draws from player deck, gets 4 yellow cards (Mexico City, San Francisco, Buenos Aires, Lima)
+Drives to SF, discards SF to create a research station
+At the end of turn, draws two new player cards
+Now has 5 yellow city cards (Mexico City, Buenos Aires, Lima, Bagota)
+
+---Infection Turn---
+Player 1 draws two infection cards (Seoul, Miami), 1 cube placed on Seoul and
+1 cube placed on Miami
+
+---Player 2---
+Draws from player deck, gets 4 blue cards (Madrid, Washington, New York,
+Chicago)
+Drives to Chicago, discards Chicago to make research station
+At the end of turn, draws two new player cards
+Now has 5 blue cards (Madrid, Washington, New York, Toronto)
+
+---Infection Turn---
+Player 2 draws two infection cards (Baghdad, Istanbul)
+1 cube placed on each
+
+---Player 1---
+Discards all 5 yellow cards to cure yellow
+Yellow vile is moved up, 1/4 diseases cured
+At the end of turn, draws 2 player cards
+Now has 2 red cards (Tokyo, Hong Kong)
+
+---Infection Turn---
+Player 1 draws 2 infection cards (Beijing, Mumbai)
+1 cube placed on each
+
+---Player 2---
+Discards all 5 blue cards to cure blue
+Blue vile is moved up, 2/4 diseases cured
+At the end of turn, draws 2 player cards
+Now has 2 black cards (Algers, Mumbai)
+
+---Infection Turn---
+Player 1 draws 2 infection cards (Tokyo, Taipai)
+1 cube placed on each
+
+--Player 1--
+Flies to Tokyo
+Discards Tokyo card to build a research station
+Takes 2 Player cards at end of turn
+Now has 3 red cards (Hong Kong, Tapai, Osaka)
+
+--Infection Turn--
+Player 1 draws 2 infection cards (Moscow, Tehran)
+1 cube placed on each
+
+--Player 2--
+Drives to Toronto
+Drives to New York
+Flies to Madrid
+Drives to Algers
+Draws 2 player cards
+Now has 4 black cards (Algers, Mumbai, Delhi, Kolkata)
+
+
+--Infection Round--
+Player 2 draws 2 infection cards (Istanbul, Mumbai)
+1 cube placed on each
+
+--Player 1--
+Draws 2 player cards
+Now has 5 red cards (Hong Kong, Taipai, Osaka, Jakarta, Bangkok)
+
+--Infection Round--
+Player 1 draws 2 infection cards (Cairo, Karachi)
+1 cube placed on each
+
+--Player 2--
+Discards Algers card to create a research station
+Draws 2 player cards
+Now has 5 black cards (Mumbai, Delhi, Kolkata, Karachi, Moscow)
+
+--Infection Round--
+Player 2 draws 2 infection cards (Tehran, Chennai)
+1 cube placed on each
+
+--Player 1--
+Discards all red cards to cure red
+Red vile moved up 3/4 diseases cured
+Draws 2 player cards (Riyadh, Baghdad)
+
+--Infection Round--
+Player 1 draws 2 infection cards (Manila, Ho Chi Minh City)
+1 cube placed on each
+
+--Player 2--
+Discards all black cards to cure black
+Black vile moved up, 4/4 diseases cured
+
+--GAME OVER--
