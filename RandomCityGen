@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+using namespace std;
+
+int main() {
+
+    string BLU1 = "San Francisco";
+    string BLU2 = "Chicago";
+    string BLU3 = "Montreal";
+    string BLU4 = "Washinton";
+    string BLU5 = "Atlanta";
+    string BLU6 = "London";
+    string BLU7 = "Madrid";
+    string BLU8 = "Paris";
+    string BLU9 = "Essen";
+    string BLU10 = "Milan";
+    string BLU11 = "St. Petersburg";
+    string BLU12 = "New York";
+    
+    string YLW1 = "Los Angeles";
+    string YLW2 = "Mexico City";
+    string YLW3 = "Miama";
+    string YLW4 = "Bogota";
+    string YLW5 = "Lima";
+    string YLW6 = "Buenos Aires";
+    string YLW7 = "Sao Paulo";
+    string YLW8 = "Lago";
+    string YLW9 = "Khartoum";
+    string YLW10 = "Johannesburg";
+    string YLW11 = "Kinshasa";
+    string YLW12 = "Santiago";
+    
+    string BLK1 = "Algiers";
+    string BLK2 = "Istanbul";
+    string BLK3 = "Cairo";
+    string BLK4 = "Moscow";
+    string BLK5 = "Tehran";
+    string BLK6 = "Baghdad";
+    string BLK7 = "Karachi";
+    string BLK8 = "Riyadh";
+    string BLK9 = "Delhi";
+    string BLK10 = "Kolkata";
+    string BLK11 = "Mumbai";
+    string BLK12 = "Chennai";
+    
+    string RED1 = "Beijing";
+    string RED2 = "Seoul";
+    string RED3 = "Tokyo";
+    string RED4 = "Shanghai";
+    string RED5 = "Hong Kong";
+    string RED6 = "Taipei";
+    string RED7 = "Osaka";
+    string RED8 = "Bangkok";
+    string RED9 = "Ho Chi Minh City";
+    string RED10 = "Manila";
+    string RED11 = "Jarkata";
+    string RED12 = "Sydney";
+    
+    
+    //randomly generate the first 9 cities to be infected
+    int randomInt;
+    srand(time(NULL));
+    
+    for (int i = 1; i <= 9; i++) {
+        
+    randomInt = rand() % 48;
+    
+    if (randomInt == 1)
+    cout << BLU1 << endl;
+    
+    if (randomInt == 2)
+    cout << BLU2 << endl;
+    
+    if (randomInt == 3)
+    cout << BLU3 << endl;
+    
+    if (randomInt == 4)
+    cout << BLU4 << endl;
+    
+    if (randomInt == 5)
+    cout << BLU5 << endl;
+    
+    if (randomInt == 6)
+    cout << BLU6 << endl;
+    
+    if (randomInt == 7)
+    cout << BLU7 << endl;
+    
+    if (randomInt == 8)
+    cout << BLU8 << endl;
+    
+    if (randomInt == 9)
+    cout << BLU9 << endl;
+    
+    if (randomInt == 10)
+    cout << BLU10 << endl;
+    
+    if (randomInt == 11)
+    cout << BLU11 << endl;
+    
+    if (randomInt == 12)
+    cout << BLU12 << endl;
+    
+    //rest of cities
+    //cities are not yet unique
+    
+    }
+    
+	return 0;
+}
