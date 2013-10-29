@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
 
-    	string BLU1 = "San Francisco";
+	string BLU1 = "San Francisco";
 	string BLU2 = "Chicago";
 	string BLU3 = "Montreal";
 	string BLU4 = "Washinton";
