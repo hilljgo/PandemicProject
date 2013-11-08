@@ -1,8 +1,9 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 using namespace std;
 
-//I was thinking having an array of Cities like in my Cities.h
 class City
 {
 public:
@@ -26,4 +27,4 @@ public:
 		outbreak = false;
 		researchStation = false;
 	}
-}
+};

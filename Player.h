@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include "City.h"
@@ -9,9 +11,9 @@ class Player
 public:
 	int color;				//Which role this player is
 	int actions;			//How many actions this player has left
-	const int maxActions = 4;
+	static const int maxActions = 4;
 	Card hand[7];			//Cards in this player's hand
-	const int maxHand = 7;
+	static const int maxHand = 7;
 	City *currentCity;		//City this player is in
 
 	//may add parameters for actions
@@ -28,18 +30,18 @@ public:
 	{
 		//Always shown
 	
-		cout << "Available cities to drive/ferry to:/n";
-		cout << "1. " << currentCity->connectOne << endl;
+		cout << "Available cities to drive/ferry to:\n";
+		cout << "1. " << currentCity->connectOne->name << endl;
 		if( currentCity->connectTwo )
-			cout << "2. " << currentCity->connectTwo << endl;
+			cout << "2. " << currentCity->connectTwo->name << endl;
 		if( currentCity->connectThree )
-			cout << "3. " << currentCity->connectThree << endl;
+			cout << "3. " << currentCity->connectThree->name << endl;
 		if( currentCity->connectFour )
-			cout << "4. " << currentCity->connectFour << endl;
+			cout << "4. " << currentCity->connectFour->name << endl;
 		if( currentCity->connectFive )
-			cout << "5. " << currentCity->connectFive << endl;
+			cout << "5. " << currentCity->connectFive->name << endl;
 		int n;
-		cout << "City number to move to/n";
+		cout << "City number to move to\n";
 		cin >> n;
 		//Statements to make current city the appropriate city & decrease actions
 		//0 should go back to initial player action menu without decreasing
@@ -76,7 +78,7 @@ public:
 	
 	void build()//Builds a research station in current city
 	{
-		//Not shown if research station already built
+		//Not shown if research station already built and if player does not have current city card
 	
 		//Display current cities with research stations
 		//Yes or no to build one in current city
@@ -134,4 +136,4 @@ public:
 			//If epidemic is drawn, discard it instead and do epidemic
 		//If current hand is >7, player discards until 7
 	}
-}
+};

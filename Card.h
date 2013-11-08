@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -13,4 +15,11 @@ public:
 	string name;	//Name of City or event or "Epidemic"
 	int color;		//0-Epidemic, 1-Blue, 2-Yellow, 3-Black, 4-Red, 5-special event; 
 	int status;		//Deck, Hand, Discard
-}
+
+	Card()
+	{
+		name = "";
+		color = 0;
+		status = 1;
+	}
+};
