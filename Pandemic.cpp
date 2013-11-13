@@ -71,7 +71,7 @@ int main()
 
 		//Choose how many players
 	choice = 0;
-	cout << "How many players will play? (1-4) ";
+	cout << "How many players will play? (2-4) ";
 	cin >> choice;
 	while ( choice != 2 && choice != 3 && choice != 4 )
 	{
@@ -463,7 +463,8 @@ int main()
 				cout << "5. Build\n";
 
 			show = false;
-			if( players[p].currentCity->cubes > 0 )
+			if( players[p].currentCity->BlueCubes > 0 || players[p].currentCity->YellowCubes > 0 ||
+				players[p].currentCity->BlackCubes > 0 || players[p].currentCity->RedCubes)
 				show = true;
 			if( show == true )
 				cout << "6. Treat\n";
@@ -596,7 +597,8 @@ void infect(City city, int d)
 			cout << "red";
 		cout << " disease because the disease is eradicated!";
 	}
-	else if( city.cubes == 3 )
+	else if( (city.BlueCubes == 3 && d == 1) || (city.YellowCubes == 3 && d == 2)
+		|| (city.BlackCubes == 3 && d == 3) || (city.RedCubes == 3 && d == 4) )
 	{
 		//if 3 cubes already, outbreak to connected cities
 		outbreak(city, d);
@@ -604,10 +606,26 @@ void infect(City city, int d)
 	else
 	{
 		cout << city.name << " becomes "; 
-		if( city.cubes > 0 )
-			cout << "more ";
-		cout << "infected.";
-		city.cubes += 1;
+		cout << "infected with the ";
+		switch (d)
+		{
+		case 1:
+			city.BlueCubes++;
+			cout << "blue disease.\n";
+			break;
+		case 2:
+			city.YellowCubes++;
+			cout << "yellow disease.\n";
+			break;
+		case 3:
+			city.BlackCubes++;
+			cout << "black disease.\n";
+			break;
+		case 4:
+			city.RedCubes++;
+			cout << "red disease.\n";
+			break;
+		}
 	}
 }
 
@@ -650,13 +668,24 @@ void sitrep()
 	//needs >=1 cubes to be displayed.
 	for (int i = 0; i < 48; i++)
 	{
-		if( earth[i].cubes > 0 || earth[i].researchStation == true)
+		if( earth[i].BlueCubes > 0 || earth[i].YellowCubes > 0
+			|| earth[i].BlackCubes > 0 || earth[i].RedCubes > 0
+			|| earth[i].researchStation == true)
 		{
-			cout << earth[i].name << ": " << earth[i].cubes;
+			cout << earth[i].name << ": ";
 			if( earth[i].researchStation == true )
 				cout << " <-Research Station->\n";
 			else
 				cout << endl;
+			if( earth[i].BlueCubes > 0 )
+				cout << "\tBlue = " << earth[i].BlueCubes;
+			if( earth[i].YellowCubes > 0 )
+				cout << "\tYellow = " << earth[i].YellowCubes;
+			if( earth[i].BlackCubes > 0 )
+				cout << "\tBlack = " << earth[i].BlackCubes;
+			if( earth[i].RedCubes > 0 )
+				cout << "\tRed = " << earth[i].RedCubes;
+			cout << endl;
 		}
 	}
 	//Display Player Locations
