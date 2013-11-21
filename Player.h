@@ -163,17 +163,29 @@ public:
 		//decrease actions or back to actions menu
 	}
 	
-	void share()//Give or take a current city card to/from another player in the same city
-	{
-		//Not shown if no other players in current city
-	
-		//Display give or take if able to
-			//Player chooses which
-		//Display available cards to give/take
-			//Player chooses
-			//If current hand is >7, player chooses to discard until 7
-		//Decrease actions or back to actions menu
-	}
+	void share()												//Give or take a current city card to/from another player in the same city
+	{															//Not shown if no other players in current city
+				int shar=0;										//init share
+				while (shar!=1 || shar!=2)
+				{
+                cout << "Give or Take Card?\n";					//prompt to give or take card
+				cout << " 1) Give 2) Take\n";
+                cin >> shar										//Player chooses which
+				}
+					if (shar==1 || player[p].CardHand>0)		//verify player has card to give
+					{  int givCard
+
+					}
+					if (shar==2 || player[p].cardHand>0)		//verify player has card to take					
+					{  int takCard
+					
+					}
+
+				}																//Display available cards to give/take
+																				//Player chooses
+
+		actions = actions-1;											//Decrease actions or back to actions menu
+        }
 	
 	void cure()//Player discards 5 same color cards to cure disease of same color
 	{
@@ -185,13 +197,22 @@ public:
 		//Decrease actions or back to actions menu
 	
 	}
-	
-	void pass()//Player does nothing for an action
-	{
-		//Always shown
-		
-		//player confirmation
-		//decrease actions or back to actions menu
-	}
+
+	void pass()													//Player does nothing for an action
+        {														//Alway shown
+			int pass=0;											//init pass choice
+			if (pass==0)										//pass confirmation
+			{
+			cout << "Are you sure you want to pass?\n";
+			cout << "1) Yes 2) No\n";
+			cin >>  pass;										//pass choice
+			}
+				if (pass == 1)									//set actions to 0
+				{
+					if (actions>0)
+					{
+							actions = 0;
+					}
+        }
 	
 };
