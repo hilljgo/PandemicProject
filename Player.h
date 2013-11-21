@@ -128,11 +128,59 @@ public:
         
         void treat()//Removes disease cube from current city
         {
-                //Not shown if no disease cubes on current city
-        
-                //Display current city's infection level of each disease
-                //Choose number to remove one or all (if cured) cube(s) of disease
-                //decrease actions or back to actions menu
+                Disease d;
+		City city;
+		int option;
+		//Not shown if no disease cubes on current city
+		if (city.BlueCubes > 0 || city.YellowCubes > 0 || city.RedCubes > 0 || city.BlackCubes > 0) {
+			//Display current city's infection level of each disease
+			cout << "This city is infected with: " << endl;
+			cout << city.BlueCubes << " blue cubes" << endl;
+			cout << city.YellowCubes << " yellow cubes" << endl;
+			cout << city.RedCubes << " red cubes" << endl;
+			cout << city.BlackCubes << " black cubes" << endl;
+			cout << "1. Treat blue\n2. Treat yellow\n3. Treat red\n4. Treat black\n";
+			cin >> option;
+
+			//Choose number to remove one or all (if cured) cube(s) of disease
+			// and decrease actions or back to actions menu
+			switch (option) {
+			case 1:
+				if (d.status == 2) city.BlueCubes = 0;
+				else {
+					city.BlueCubes--;
+				}
+				actions--;
+				break;
+
+			case 2:
+				if (d.status == 2) city.YellowCubes = 0;
+				else {
+					city.YellowCubes--;
+				}
+				actions--;
+				break;
+
+			case 3:
+				if (d.status == 2) city.RedCubes = 0;
+				else {
+					city.RedCubes--;
+				}
+				actions--;
+				break;
+
+			case 4:
+				if (d.status == 2) city.BlackCubes = 0;
+				else {
+					city.BlackCubes--;
+				}
+				actions--;
+				break;
+			default:
+				break;
+			}
+
+		}
         }
         
         void share()//Give or take a current city card to/from another player in the same city
