@@ -128,17 +128,17 @@ public:
         
         void treat()//Removes disease cube from current city
         {
-                Disease d;
+               Disease d;
 		City city;
 		int option;
 		//Not shown if no disease cubes on current city
-		if (city.BlueCubes > 0 || city.YellowCubes > 0 || city.RedCubes > 0 || city.BlackCubes > 0) {
+		if (currentCity->BlueCubes > 0 || currentCity->YellowCubes > 0 || currentCity->RedCubes > 0 || currentCity->BlackCubes > 0) {
 			//Display current city's infection level of each disease
 			cout << "This city is infected with: " << endl;
-			cout << city.BlueCubes << " blue cubes" << endl;
-			cout << city.YellowCubes << " yellow cubes" << endl;
-			cout << city.RedCubes << " red cubes" << endl;
-			cout << city.BlackCubes << " black cubes" << endl;
+			cout << currentCity->BlueCubes << " blue cubes" << endl;
+			cout << currentCity->YellowCubes << " yellow cubes" << endl;
+			cout << currentCity->RedCubes << " red cubes" << endl;
+			cout << currentCity->BlackCubes << " black cubes" << endl;
 			cout << "1. Treat blue\n2. Treat yellow\n3. Treat red\n4. Treat black\n";
 			cin >> option;
 
@@ -148,7 +148,7 @@ public:
 			case 1:
 				if (d.status == 2) city.BlueCubes = 0;
 				else {
-					city.BlueCubes--;
+					currentCity->BlueCubes--;
 				}
 				actions--;
 				break;
@@ -156,7 +156,7 @@ public:
 			case 2:
 				if (d.status == 2) city.YellowCubes = 0;
 				else {
-					city.YellowCubes--;
+					currentCity->YellowCubes--;
 				}
 				actions--;
 				break;
@@ -164,7 +164,7 @@ public:
 			case 3:
 				if (d.status == 2) city.RedCubes = 0;
 				else {
-					city.RedCubes--;
+					currentCity->RedCubes--;
 				}
 				actions--;
 				break;
@@ -172,7 +172,7 @@ public:
 			case 4:
 				if (d.status == 2) city.BlackCubes = 0;
 				else {
-					city.BlackCubes--;
+					currentCity->BlackCubes--;
 				}
 				actions--;
 				break;
@@ -181,6 +181,7 @@ public:
 			}
 
 		}
+
         }
         
         void share()//Give or take a current city card to/from another player in the same city
