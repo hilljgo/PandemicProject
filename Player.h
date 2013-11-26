@@ -6,6 +6,7 @@ using namespace std;
 
 #include "City.h"
 #include "Card.h"
+#include "Disease.h"
 
 
 class Player
@@ -47,6 +48,19 @@ public:
 		cin >> n;
 		//Statements to make current city the appropriate city & decrease actions
 		//0 should go back to initial player action menu without decreasing
+        
+        if(n == 0)
+            
+        if(n == 1)
+            currentCity = currentCity->connectOne;
+        if(n == 2)
+            currentCity = currentCity->connectTwo;
+        if(n == 3)
+            currentCity = currentCity->connectThree;
+        if(n == 4)
+            currentCity = currentCity->connectFour;
+        if(n == 6)
+            currentCity = currentCity->connectFive;
 	}
 	 
 	void direct(City earth[48])//Player discards city card to go to that city
@@ -152,7 +166,25 @@ public:
 	void build()//Builds a research station in current city
 	{
 		//Not shown if research station already built and if player does not have current city card
-	
+        string response;
+        if(response == "Yes")
+        {
+            
+            for(int i = 0; i < 7; i++) // run through player hand to see if they have the card
+            {
+                if(currentCity->name == hand[i]->name) //if current city name matches the name of a card the player has
+                {
+                    currentCity->researchStation = true; //the current city now has a research station
+                    cout << "Research Station placed on " << currentCity->name << endl;
+                    actions = actions - 1; // take an actions away
+                }
+            }
+        }
+        if(response == "No")
+            cout << "No research stations place" << endl;
+        
+        else
+            cout << "You dont have the current city's card in your hand, therefore you cannot place a research station" << endl;
 		//Display current cities with research stations
 		//Yes or no to build one in current city
 		//Change city's researchStation to true
@@ -162,12 +194,60 @@ public:
 	
 	void treat()//Removes disease cube from current city
 	{
-		//Not shown if no disease cubes on current city
-	
-		//Display current city's infection level of each disease
-		//Choose number to remove one or all (if cured) cube(s) of disease
-		//decrease actions or back to actions menu
-	}
+		Disease d;
+        City city;
+        int option;
+        //Not shown if no disease cubes on current city
+        if (currentCity->BlueCubes > 0 || currentCity->YellowCubes > 0 || currentCity->RedCubes > 0 || currentCity->BlackCubes > 0) {
+            //Display current city's infection level of each disease
+            cout << "This city is infected with: " << endl;
+            cout << currentCity->BlueCubes << " blue cubes" << endl;
+            cout << currentCity->YellowCubes << " yellow cubes" << endl;
+            cout << currentCity->RedCubes << " red cubes" << endl;
+            cout << currentCity->BlackCubes << " black cubes" << endl;
+            cout << "1. Treat blue\n2. Treat yellow\n3. Treat red\n4. Treat black\n";
+            cin >> option;
+            
+            //Choose number to remove one or all (if cured) cube(s) of disease
+            // and decrease actions or back to actions menu
+            switch (option) {
+                case 1:
+                    if (d.status == 2) city.BlueCubes = 0;
+                    else {
+                        currentCity->BlueCubes--;
+                    }
+                    actions--;
+                    break;
+                    
+                case 2:
+                    if (d.status == 2) city.YellowCubes = 0;
+                    else {
+                        currentCity->YellowCubes--;
+                    }
+                    actions--;
+                    break;
+                    
+                case 3:
+                    if (d.status == 2) city.RedCubes = 0;
+                    else {
+                        currentCity->RedCubes--;
+                    }
+                    actions--;
+                    break;
+                    
+                case 4:
+                    if (d.status == 2) city.BlackCubes = 0;
+                    else {
+                        currentCity->BlackCubes--;
+                    }
+                    actions--;
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+    }
 	
 	void share()												//Give or take a current city card to/from another player in the same city
 	{															//Not shown if no other players in current city
