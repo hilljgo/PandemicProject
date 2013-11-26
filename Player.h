@@ -51,33 +51,33 @@ public:
 	{
 		int city; // city to fly to
 		//Not shown if player has no city cards in hand
-			//display available cities player can fly to
-        //warn player that they will discard the coresponding city card
-        cout << "Available Cities to Directly Fly to "
-        << "[Direct Flights Remove City Card From Hand] : " << endl;
+		//display available cities player can fly to
+        	//warn player that they will discard the coresponding city card
+        	cout << "Available Cities to Directly Fly to "
+        		<< "[Direct Flights Remove City Card From Hand] : " << endl;
         
-        //goes through hand
-        for (int i = 0; i < maxHand; i++)
-            // displays only city cards
+		 //goes through hand
+        	for (int i = 0; i < maxHand; i++)
+        	 // displays only city cards
 			if (hand[i]->color != 0 || hand[i]->color != 5)
-                cout << "  [" << i+1 << "]  " << hand[i]->name << endl;
+                		cout << "  [" << i+1 << "]  " << hand[i]->name << endl;
                 //player chooses a number
-        cout << "\nChoose City [#] or 0 to go back to action menu : ";
-        cin >> city;
+        	cout << "\nChoose City [#] or 0 to go back to action menu : ";
+        	cin >> city;
         
                 //change current city & decrease actions or go back to actions menu
-        if (city != 0){
-            cout << "\n Flying From " << currentCity->name << " to " << hand[city-1]->name << endl;
+        	if (city != 0){
+            		cout << "\n Flying From " << currentCity->name << " to " << hand[city-1]->name << endl;
             
-///Have to change because hand array becomes pointers
-            hand[city-1]->status = 2; // marks card as discarded
+            		hand[city-1]->status = 2; // marks card as discarded
             
-            for (int i = 0; i < 48; i++) {
-                if(hand[city-1]->name == earth[i].name)
-                    currentCity = &earth[i];
-            }
-            actions--;
-        }
+            		for (int i = 0; i < 48; i++) {
+                		if(hand[city-1]->name == earth[i].name)
+                			 currentCity = &earth[i];
+            			}
+            	
+        		actions--;
+        	}
         
 	}
 	
@@ -85,8 +85,8 @@ public:
 	{
 		int city;
                 //Not shown if player does not have current city card
-        cout << "Charter a flight to a city by discarding current city card "
-        << "[City card will be discarded from hand]: " << endl;
+		 cout << "Charter a flight to a city by discarding current city card "
+        		<< "[City card will be discarded from hand]: " << endl;
         
                 //display all cities
         for (int i = 0; i < 48; i++) {
