@@ -14,19 +14,19 @@ public:
 	City *connectFour;
 	City *connectFive;
 	City *connectSix;
-	int cubes;			//Number of disease cubes on the city
+	int BlueCubes, YellowCubes, BlackCubes, RedCubes;		//Number of disease cubes on the city
 	bool outbreak;		//If this city outbreaked during current infection
 	bool researchStation;//If this city has a research Center
-    
+
+
 	City()
 	{
 		name = "";
 		connectOne = connectTwo = connectThree = connectFour = connectFive = connectSix = NULL;
-		cubes = 0;
+		BlueCubes = YellowCubes = BlackCubes = RedCubes = 0;
 		outbreak = false;
 		researchStation = false;
 	}
-    
     void cities(City earth[48])
     {
         //Each city is the number on Joeven's Colored Order doc - 1
