@@ -163,29 +163,57 @@ public:
 		//decrease actions or back to actions menu
 	}
 	
-	void share()												//Give or take a current city card to/from another player in the same city
+		void share()												//Give or take a current city card to/from another player in the same city
 	{															//Not shown if no other players in current city
-				int shar=0;										//init share
-				while (shar!=1 || shar!=2)
+			int shar=0;										//init share
+			int givCard. takCard;
+			while (shar!=1 || shar!=2)
+			{
+            cout << "Give or Take Card?\n";					//prompt to give or take card
+			cout << " 1) Give 2) Take\n";
+			cin >> shar;										//Player chooses which
+				if (shar==1 || players[p].hand>0)		//verify player has card to give
+				{  
+				cout << "\nPlayer " << p << "'s cards in hand:\n";
+					for(int i = 0; i < 7; i++)
+					{
+						if( players[p].hand[i] && players[p].hand[i]->status == 1 )
+						{
+						cout << players[p].hand[i]->name << endl;
+						}
+					}
+				cout << "Choose which card to give (0-6)\n";
+				cin >> givCard;
+				if ( givCard != 0 || givCard != 1 || givCard != 2 || givCard != 3 || givCard != 4 || givCard != 5 || givCard != 6)
+					cout << "Please choose a valid card #\n"
+
+				else
+				players[p+1].hand[i] = players[p+1].hand[i] + players[p].hand[givCard];
+				players[p].hand[i] = players[p].hand[i] - players[p].hand[givCard];
+
+				if (shar==2 || players[p].hand>0)		//verify player has card to take					
 				{
-                cout << "Give or Take Card?\n";					//prompt to give or take card
-				cout << " 1) Give 2) Take\n";
-                cin >> shar										//Player chooses which
+				{  
+				cout << "\nPlayer " << p << "'s cards in hand:\n";
+					for(int i = 0; i < 7; i++)
+					{
+						if( players[p].hand[i] && players[p].hand[i]->status == 1 )
+						{
+						cout << players[p].hand[i]->name << endl;
+						}
+					}
+				cout << "Choose which card to take (0-6)\n";
+				cin >> takCard;
+				if ( takCard != 0 || takCard != 1 || takCard != 2 || takCard != 3 || takCard != 4 || takCard != 5 || takCard != 6)
+					cout << "Please choose a valid card #\n"
+
+				else
+				players[p+1].hand[i] = players[p+1].hand[i] - players[p+1].hand[takCard];
+				players[p].hand[i] = players[p].hand[i] + players[p].hand[takCard];
 				}
-					if (shar==1 || player[p].CardHand>0)		//verify player has card to give
-					{  int givCard
-
-					}
-					if (shar==2 || player[p].cardHand>0)		//verify player has card to take					
-					{  int takCard
-					
-					}
-
-				}																//Display available cards to give/take
-																				//Player chooses
-
-		actions = actions-1;											//Decrease actions or back to actions menu
-        }
+			}															
+		players.actions = players.actions-1;											//Decrease actions or back to actions menu
+	}
 	
 	void cure()//Player discards 5 same color cards to cure disease of same color
 	{
@@ -209,9 +237,9 @@ public:
 			}
 				if (pass == 1)									//set actions to 0
 				{
-					if (actions>0)
+					if (players[p].actions>0)
 					{
-							actions = 0;
+							players[p].actions = 0;
 					}
         }
 	
