@@ -1,0 +1,42 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 [0] Operations expert : (adjust shuttle function)\
+	Special ability: Move to any research station\
+	Build(): Build RS without discarding\
+		- if(players.sp == 0)\
+			Build a station?\
+			if yes - \
+				currentcity.researchstation == true\
+\
+[1]  Contingecy ( loop to look through deck)\
+	SP: Go through deck any discarded can bring back 1\
+		*** Not part of hand\
+			- Make a card pointer called CP Card\
+[2] Dispatcher ( Direct, shuttle, and move function)\
+	SP: Move other player\
+		Who do you want to move : list players\
+			than use that players number to call move function \
+			i.e player[i].move()\
+			or shuttle ***Direct and charter are possible but must be from own hand\
+\
+[3] Medic ( treat, shuttle, and move function) \
+	SP: Treat treats all cubes of 1 color\
+		If cure is found cubes once entered cubes gone i.e in the move function \
+			If (medic && cure found) remove cubes of disease\
+\
+[4] Scientist\
+	SP: Cure function but changes num to 4 \
+		*** Should make the counter for cure changeable i.e. \
+			cure(int n)\
+\
+[5]Researcher\
+	SP: Share cards regardless if diff city name\
+		share function issue\
+\
+[6] QS\
+	SP: All current city connections are safe \
+		deal in outbreak function }
