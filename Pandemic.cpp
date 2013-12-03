@@ -11,7 +11,7 @@ using namespace std;
 
 void save(int);
 void infection();
-void infect(City, int);
+void infect(City&, int);
 void sitrep();
 void epidemic();
 void outbreak(City, int);
@@ -100,6 +100,9 @@ int main()
                 for( int j = 0; j < 3; j++ )
                 {
                         infect(earth[d],InfecionDeck[d].color);
+						InfecionDeck[d].status = 2;
+						
+						
                 }
         }
         for( int i = 0; i < 3; i++ )
@@ -112,6 +115,8 @@ int main()
                 for( int j = 0; j < 2; j++ )
                 {
                         infect(earth[d],InfecionDeck[d].color);
+						InfecionDeck[d].status = 2;
+						
                 }
         }
         for( int i = 0; i < 3; i++ )
@@ -124,7 +129,10 @@ int main()
                 for( int j = 0; j < 1; j++ )
                 {
                         infect(earth[d],InfecionDeck[d].color);
+						InfecionDeck[d].status = 2;
+						
                 }
+				
         }
 
 #pragma endregion Up
@@ -135,14 +143,9 @@ int main()
         sitrep();
         getchar();
 
+		save(numPlayers);
 
-		//printing out all citys and their cubes for testings
-		for(int i = 0; i < 48; i++)
-		{
-			cout << earth[i].name << " " << earth[i].BlackCubes << " " << earth[i].RedCubes << " " << earth[i].YellowCubes << " " << earth[i].BlueCubes << endl;
 		
-		}
-
 
         bool end = false;
         int p = -1;
@@ -162,7 +165,8 @@ int main()
                         for( int i = 0; i < 9; i++ )
                                 showing[i] = false;
                         showing[0] = showing[8] = true;
-                        //Display player's cards & location
+                        
+						//Display player's cards & location
                         cout << "\nPlayer " << p+1 << "'s cards in hand:\n";
                         for(int i = 0; i < 7; i++)
                         {
@@ -385,9 +389,10 @@ void infection()
         }
 }
 
-void infect(City city, int d)
+void infect(City &city, int d)
 {
-        if ( diseases[d].status == 3 )
+        
+		if ( diseases[d].status == 3 )
         {
                 //if deasease is eradicated, do nothing
                 cout << "No spread of ";
@@ -690,5 +695,16 @@ void save(int numPlayers)
 
 
 						saveFile.close();
+
+}
+
+void load()
+{
+	ifstream loadFile;
+	loadFile.open("save.txt");
+
+
+
+
 
 }
