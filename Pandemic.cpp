@@ -135,6 +135,8 @@ int main()
         sitrep();
         getchar();
 
+
+		//printing out all citys and their cubes for testings
 		for(int i = 0; i < 48; i++)
 		{
 			cout << earth[i].name << " " << earth[i].BlackCubes << " " << earth[i].RedCubes << " " << earth[i].YellowCubes << " " << earth[i].BlueCubes << endl;
@@ -617,16 +619,16 @@ void save(int numPlayers)
 						saveFile.open("save.txt");
 						
 						//saving number of players
-						saveFile << "NUMBER OF PLAYERS: " << numPlayers << endl;
+						saveFile << numPlayers << endl;
 						
 						//saving outbreaks
-						saveFile << "OUTBREAKS: " << outbreaks << endl;
+						saveFile << outbreaks << endl;
 						
 						//saving infection rate
-						saveFile << "INFECTION RATE: " << infectionRate << endl;
+						saveFile << infectionRate << endl;
 						
 						//saving research stations
-						saveFile << "NUMBER OF RESEARCH STATIONS: " << researchStations << endl;
+						saveFile << researchStations << endl;
 						
 						//saving location
 						for(int i = 0; i < numPlayers; i++)
