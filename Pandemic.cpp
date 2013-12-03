@@ -23,7 +23,7 @@ const int MaxPlayerCards = 59;                //48 city, 6 epidemic, 5 special e
 int outbreaks;                        //Total outbreaks that have occurred
 int infectionRate;                //Current rate of infections (how many infection cards are drawn)
 int researchStations;        //Number of stations on the board
-
+int numPlayers;
 
 
 
@@ -41,7 +41,7 @@ int main()
         InfecionDeck->iniInfectDeck(InfecionDeck);
         PlayerDeck->iniPlayerDeck(PlayerDeck);
         int choice = 0;
-		int numPlayers;
+		
 #pragma region Set
         //Initial set-up
                 //Choose difficulty (4,5,6 Epidemic cards in player deck)
@@ -89,6 +89,9 @@ int main()
         outbreaks = 0;
         infectionRate = 2;
         researchStations = 1;
+
+		
+			
                 //Initial infections
         for( int i = 0; i < 3; i++ )
         {
@@ -143,7 +146,7 @@ int main()
         sitrep();
         getchar();
 
-		save(numPlayers);
+		
 
 		
 
@@ -442,7 +445,8 @@ void infect(City &city, int d)
                 {
                         cout << "The " << diseases[d].name << " Disease has spread too much."
                                 << "You Lose.\n";
-                        exit(0);
+                        save(numPlayers);
+						exit(0);
                 }
         }
 }
@@ -458,7 +462,8 @@ void outbreak(City city, int d)
                 if( outbreaks >= 8 )
                 {
                         cout << "There have been too many outbreaks. You Lose.\n";
-                        exit(0);
+                        save(numPlayers);
+						exit(0);
                 }
                 infect(*city.connectOne, d);
                 if (city.connectTwo)
@@ -546,7 +551,8 @@ void draw(Player &play, bool beginning) //Player draws 2 cards
                 if( count == MaxPlayerCards )
                 {
                         cout << "There are no more cards to draw. Time has run out. You Lose.\n";
-                        exit(0);
+                        save(numPlayers);
+						exit(0);
                 }
 
                 for( int j = 0; j <= play.maxHand; j++ )
@@ -624,27 +630,29 @@ void save(int numPlayers)
 						saveFile.open("save.txt");
 						
 						//saving number of players
-						saveFile << numPlayers << endl;
+						saveFile << "numPlayers = " << numPlayers << endl;
 						
+
+
 						//saving outbreaks
-						saveFile << outbreaks << endl;
+						saveFile << "outbreaks = " << outbreaks << endl;
 						
 						//saving infection rate
-						saveFile << infectionRate << endl;
+						saveFile << "infectionRate = " << infectionRate << endl;
 						
 						//saving research stations
-						saveFile << researchStations << endl;
+						saveFile << "researchStations = " << researchStations << endl;
 						
 						//saving location
 						for(int i = 0; i < numPlayers; i++)
 						{
-							saveFile << "Player " << i+1 << "'S LOCATION:  " << players[i].currentCity->name << endl;
+							saveFile << "Player " << i+1 <<  "at " << players[i].currentCity->name << endl;
 						}
 						
 						//saving special ability
 						for(int i = 0; i < numPlayers; i++)
 						{
-							saveFile << "Player " << i+1 << "'s special ability is: " << players[i].specialAbility << endl;
+							saveFile << "Player " << i+1 << "specialAbility = " << players[i].specialAbility << endl;
 						}
 
 						//saving hands
@@ -666,7 +674,18 @@ void save(int numPlayers)
 							}
 						}
 
+						//total blue cubes
+						
+						saveFile << "Total Blue cubes: " << diseases[1].cubes << endl;
+						//total yellow cubes 
+						saveFile << "Total Yellow cubes: " <<  diseases[2].cubes << endl;
+						//total black cubes
+						saveFile << "Total Black cubes: " << diseases[3].cubes << endl;
+						//total red cubes
+						saveFile << "Total Red cubes: " << diseases[4].cubes << endl;
+						
 						//saving infection cubes
+						saveFile << "NUMBER OF CUBES PER CITY" << endl;
 						for(int i = 0; i < 48; i++)
 						{
 							
@@ -692,6 +711,20 @@ void save(int numPlayers)
 							}
 							*/
 						}
+						saveFile << "INFECTION DECK STATUS'" << endl;
+						//infection cards status'
+						for(int i = 0; i < MaxInfectionCards; i++)
+						{
+							saveFile << InfecionDeck[i].status << endl;
+						}
+
+						saveFile << "PLAYER DECK STATUS" << endl;
+						for(int i = 0; i < MaxPlayerCards; i++)
+						{
+							saveFile << PlayerDeck[i].status << endl;
+						}
+
+
 
 
 						saveFile.close();
@@ -702,7 +735,52 @@ void load()
 {
 	ifstream loadFile;
 	loadFile.open("save.txt");
+	int value;
+	string cityName[4];
+	
 
+	while(!loadFile.eof())
+	{
+		loadFile >> value;
+		numPlayers = value;
+		
+		loadFile >> value;
+		outbreaks = value;
+		
+		loadFile >> value;
+		infectionRate = value;
+		
+		//load each players current city names
+		for(int i = 0; i < numPlayers; i++)
+		{
+			loadFile >> cityName[i];
+		}
+
+		//take string from file, search earth array for that name, set players currentCity to that city
+		for(int i = 0; i < numPlayers; i++)
+		{
+			for(int j = 0; j < 48; j++)
+			{
+				if(cityName[i] == earth[j].name)
+				{
+					players[i].currentCity = &earth[j];
+				}
+			}
+		}
+		
+		//loading each players special ability
+		for(int i = 0; i < numPlayers; i++)
+		{
+			loadFile >> value;
+			players[i].specialAbility = value;
+		}
+
+		
+
+
+
+
+	}
 
 
 
