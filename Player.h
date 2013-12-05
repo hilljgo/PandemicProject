@@ -25,6 +25,34 @@ public:
                 currentCity = NULL; //should be assigned to Atlanta via main
         }
 
+	void special(Player p[4]){
+        switch (specialAbility) {
+            case 1:
+                cout << "\nAs the Operations Expert you can Build any Research Station"
+                << " or Move to any research Station without discarding" << endl;
+                // get choice
+                // call appropriate function
+                break;
+            case 2:
+                cout << "\nAs the Scientist you can Cure with only 4 of the same colored"
+                << " cards" << endl;
+                // get choice
+                // call appropriate function
+                break;
+            case 3:
+                cout << "\nAs the Medic you can treat a whole disease if a cure has"
+                << " been found you automatically cure a disease when entering"<< endl;
+                // get choice
+                // call appropriate function
+                break;
+            default:
+                cout << "\nAs the Dispatcher you can move other players to another location "
+                << "or you can move them as your own piece"<< endl;
+                // get choice
+                // call appropriate function
+                break;
+        }
+    }
         //moves player to connecting city
         void move()
         {
