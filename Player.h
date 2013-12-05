@@ -175,7 +175,7 @@ public:
 			// and decrease actions or back to actions menu
 			switch (option) {
 			case 1:
-				if (d.status == 2) city.BlueCubes = 0;
+				if (d.status == 2) currentCity->BlueCubes = 0;
 				else {
 					currentCity->BlueCubes--;
 				}
@@ -183,7 +183,7 @@ public:
 				break;
 
 			case 2:
-				if (d.status == 2) city.YellowCubes = 0;
+				if (d.status == 2) currentCity->YellowCubes = 0;
 				else {
 					currentCity->YellowCubes--;
 				}
@@ -191,7 +191,7 @@ public:
 				break;
 
 			case 3:
-				if (d.status == 2) city.RedCubes = 0;
+				if (d.status == 2) currentCity->RedCubes = 0;
 				else {
 					currentCity->RedCubes--;
 				}
@@ -199,7 +199,7 @@ public:
 				break;
 
 			case 4:
-				if (d.status == 2) city.BlackCubes = 0;
+				if (d.status == 2) currentCity->BlackCubes = 0;
 				else {
 					currentCity->BlackCubes--;
 				}
