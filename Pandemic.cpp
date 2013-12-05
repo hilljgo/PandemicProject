@@ -9,6 +9,7 @@
 #include "Disease.h"
 using namespace std;
 
+void randSP();
 void save(int);
 void infection();
 void infect(City&, int);
@@ -82,7 +83,10 @@ int main()
                 players[i].currentCity = &earth[5];
                 draw(players[i], true);
         }
-
+        
+            //// Randomly assigns Job / Special Ability
+        randSP();
+        
         choice = 0;
 
                 //Initialize outbreak & infection rate
@@ -777,14 +781,24 @@ void load()
 			**/
 		}
 
-		
-
-
-
-
 	}
-
-
-
-
+}
+void randSP(){
+    players[1].specialAbility = rand() % 4 + 1; // random # 1-4
+    
+    do {
+        players[2].specialAbility = rand() % 4 + 1; // random # 1-4
+    }while(players[2].specialAbility == players[1].specialAbility); // reassign while p1 = p2
+    
+    
+    do {
+        players[3].specialAbility = rand() % 4 + 1; // random # 1-4
+    } while ((players[3].specialAbility == players[2].specialAbility) &&
+             (players[3].specialAbility == players[1].specialAbility));
+    
+    do {
+        players[4].specialAbility = rand() % 4 + 1; // random # 1-4
+    } while ((players[4].specialAbility == players[3].specialAbility) &&
+             (players[4].specialAbility == players[2].specialAbility) &&
+             (players[4].specialAbility == players[1].specialAbility));
 }
