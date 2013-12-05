@@ -4,6 +4,7 @@
 #include <string>
 #include "City.h"
 #include "Card.h"
+#include "Disease.h"
 using namespace std;
 
 class Player
