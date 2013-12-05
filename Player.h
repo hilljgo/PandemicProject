@@ -25,31 +25,98 @@ public:
                 currentCity = NULL; //should be assigned to Atlanta via main
         }
 
-	void special(Player p[4]){
+   	void special(Player p[4],City *earth){
+        int choice = 0;
+        int pswitch;
         switch (specialAbility) {
             case 1:
                 cout << "\nAs the Operations Expert you can Build any Research Station"
                 << " or Move to any research Station without discarding" << endl;
                 // get choice
+                cout << "\n1.Build\n2.Shuttle" << endl;
+                cin >> choice;
                 // call appropriate function
+                if (choice == 1)
+                    build();
+                else if (choice == 2)
+                    shuttle(earth);
+                else
+                    break;
                 break;
             case 2:
                 cout << "\nAs the Scientist you can Cure with only 4 of the same colored"
                 << " cards" << endl;
-                // get choice
-                // call appropriate function
+                int b,y,r,blk;
+                b = y = blk = r = 0;
+                for (int i = 0; i < 7; i++) {
+                    if (hand[i] && hand[i]->color == 1)b++;
+                    else if (hand[i] && hand[i]->color == 2)y++;
+                    else if (hand[i] && hand[i]->color == 3)blk++;
+                    else if (hand[i] && hand[i]->color == 4)r++;
+                }
+                if (b == 4 || y == 4 || blk == 4 || r == 4){
+                    cout << "Currently have 4 cards of the same color did you want to cure? "
+                    << " 1. Yes\n 2.No" << endl;
+                    cin >> choice;
+                    if (choice == 1)
+                        cure();
+                    else
+                        break;
+                }
+                else
+                    cout << " Currently have less than 4 Cards of same color, Special "
+                    << "Ability is not available" << endl;
                 break;
+                
             case 3:
                 cout << "\nAs the Medic you can treat a whole disease if a cure has"
                 << " been found you automatically cure a disease when entering"<< endl;
                 // get choice
+                if(currentCity->BlueCubes > 0){
+                    cout << "Can Treat all of Blue Cubes" << endl;
+                    cout << "1.Treat\n2.Skip" << endl;
+                    cin >> choice;
+                    if (choice == 1)
+                        treat();
+                }
+                else if(currentCity->YellowCubes > 0){
+                    cout << "Can Treat all of Yellow Cubes" << endl;
+                    cout << "1.Treat\n2.Skip" << endl;
+                    cin >> choice;
+                    if (choice == 1)
+                        treat();
+                }
+                else if(currentCity->BlackCubes > 0){
+                    cout << "Can Treat all of Black Cubes" << endl;
+                    cout << "1.Treat\n2.Skip" << endl;
+                    cin >> choice;
+                    if (choice == 1)
+                        treat();
+                }
+                else if(currentCity->RedCubes > 0){
+                    cout << "Can Treat all of Red Cubes" << endl;
+                    cout << "1.Treat\n2.Skip" << endl;
+                    cin >> choice;
+                    if (choice == 1)
+                        treat();
+                }
                 // call appropriate function
+                else
+                    cout << "\nCurrent City has no Cubes to treat" << endl;
                 break;
             default:
                 cout << "\nAs the Dispatcher you can move other players to another location "
                 << "or you can move them as your own piece"<< endl;
                 // get choice
+                cout << "\n1.Move Player to Player\n2.Move Other player\n3.Skip" << endl;
                 // call appropriate function
+                cin >> choice;
+                if (choice == 1)
+                    cout << " Move Which Players? " << endl;
+                else if (choice == 2)
+                    cout << " Move which Player?" << endl;
+                else
+                    break;
                 break;
         }
     }
