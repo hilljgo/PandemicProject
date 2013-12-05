@@ -196,16 +196,69 @@ public:
                 //Decrease actions or back to actions menu
         }
         
-        void cure()//Player discards 5 same color cards to cure disease of same color
-        {
-                //Show if on a research station AND >=5 same color city cards AND disease is still live
-        
-                //warn player that they will discard 5 cards
-                        //if >5 same color city cards, player chooses which to keep
-                //change color's disease to cured
-                //Decrease actions or back to actions menu
-        
-        }
+       void cure(/*Disease d[], City city[], Card card*/)//Player discards 5 same color cards to cure disease of same color
+	{
+		Disease d;
+		City city;
+		Card card;
+		if (currentCity->researchStation == true)
+		{
+			int blu = 0, yel = 0, bla = 0, red = 0;
+			for (int i = 0; i < 7; i++)
+			{
+				switch (hand[i]->color)
+				{
+				case 1:
+					blu++;
+					break;
+				case 2:
+					yel++;
+					break;
+				case 3:
+					bla++;
+					break;
+				case 4:
+					red++;
+					break;
+				default:
+					break;
+				}
+
+			}
+			if (blu >= 5 || yel >= 5 || bla >= 5 || red >= 5)
+			{
+				cout << "Discard 5 cards?";
+				for (int i = 0; i < maxHand; i++) {
+					// displays only city cards
+					if (hand[i]) {
+						if (hand[i]->color != 0 && hand[i]->color != 5) {
+							cout << "  [" << i + 1 << "]  " << hand[i]->name << endl;
+							if (blu >= 5 || yel >= 5 || bla >= 5 || red >= 5) {
+								cout << blu << endl;
+								cout << yel << endl;
+								cout << bla << endl;
+								cout << red << endl;
+							}
+						}
+					}
+				}
+				cout << "1. Cure blue/n2. Cure yellow/n3. Cure black/n4. Cure red";
+				int option;
+				cin >> option;
+				if (option == 1 || option == 2 || option == 3 || option == 4) {
+					int c = 0;
+					do {
+						if (hand[c]->color == option) {
+							card.status = 2;
+							hand[c] = NULL;
+							d.status = 2;
+							actions--;
+						}
+					} while (c <= 5);
+				}
+			}
+		}
+	}
         
         void pass()//Player does nothing for an action
         {
