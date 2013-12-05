@@ -304,7 +304,7 @@ int main()
                                 cout << "8. Cure\n";
                         }
 
-                        cout << "9. Pass\nChoose a number.";
+                        cout << "9. Pass\n0. Special Ability\nChoose a number:";
 
                         choice = 0;
                         do
@@ -341,6 +341,9 @@ int main()
                                         case 9:
                                                 players[p].pass();
                                                 break;
+                                        case 0:
+                                        	players[p].special();
+                                        	break;
                                         default:
                                                 cout << "Invalid choice. Please choose again\n";
                                         }
