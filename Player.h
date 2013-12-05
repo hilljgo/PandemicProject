@@ -227,7 +227,9 @@ public:
         }
         
         void treat()//Removes disease cube from current city
-        {
+		{
+				/**
+
                 Disease d;
                 City city;
                 int option;
@@ -282,35 +284,89 @@ public:
 
                 }
 
-        }
+        **/}
         
-        void share()    //Give or take a current city card to/from another player in the same city
-        {               //Not shown if no other players in current city
-			/*int shar=0;   //init share
-            while (shar!=1 || shar!=2)
-            {
-				cout << "Give or Take Card?\n";   //prompt to give or take card
-                cout << " 1) Give 2) Take\n";
-                cin >> shar                       //Player chooses which
-            }
-            if (shar==1 || player[p].cardHand>0)                //verify player has card to give
-            {  
-				int givCard;
-            }
-            if (shar==2 || player[p].cardHand>0)                //verify player has card to take                                        
-            {  
-				int takCard;                        
-            }
-
-         }    //Display available cards to give/take
-              //Player chooses
-
-                actions = actions-1;   //Decrease actions or back to actions menu
-				*/
-        }
+		void share(Player players[4], int p)												//Give or take a current city card to/from another player in the same city
+	{														//Not shown if no other players in current city
+			int shar=0, maxHand = 7;											//init share
+			int givCard, takCard, sharPlayer;
+			
+			for( int k = 0; k < 7; k++ )
+			{
+				if( players[p].hand[k] && players[p].hand[k]->name == players[p].currentCity->name )
+				{
+					for( int i = 0; i < 4; i++ )
+					 {
+						if( players[p].currentCity == players[i].currentCity )
+							sharPlayer = i;
+					 }
+             	}
+			}
+			while (shar!=1 || shar!=2)
+			{
+            cout << "Give or Take Card?\n";						//prompt to give or take card
+			cout << " 1) Give 2) Take\n";
+			cin >> shar;										//Player chooses which
+				if (shar==1 || players[p].hand>0)						//verify player has card to give
+				{  
+				cout << "\nPlayer's cards in hand:\n";
+					for(int i = 0; i < 7; i++)
+					{
+						if( players[p].hand[i] && players[p].hand[i]->status == 1 )
+						{
+						cout << players[p].hand[i]->name << endl;
+						}
+					}
+				cout << "Choose which card to give (0-6)\n";
+				cin >> givCard;
+					if ( givCard != 0 || givCard != 1 || givCard != 2 || givCard != 3 || givCard != 4 || givCard != 5 || givCard != 6)
+					{
+					cout << "Please choose a valid card #\n";
+					}
+					else
+					{
+						for( int j = 0; j <= maxHand; j++ )
+						{
+							if( hand[j] == NULL )
+								players[sharPlayer].hand[j] = players[p].hand[givCard];
+								players[p].hand[givCard] = NULL;
+						}
+					}
+				}
+				if (shar==2 || players[sharPlayer].hand>0)		//verify player has card to take
+				{  
+				cout << "\nPlayer's cards in hand:\n";
+					for(int i = 0; i < 7; i++)
+					{
+						if( players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->status == 1 )
+						{
+						cout << players[sharPlayer].hand[i]->name << endl;
+						}
+					}
+				cout << "Choose which card to take (0-6)\n";
+				cin >> takCard;
+					if ( takCard != 0 || takCard != 1 || takCard != 2 || takCard != 3 || takCard != 4 || takCard != 5 || takCard != 6)
+					{
+					cout << "Please choose a valid card #\n";
+					}
+					else
+					{
+						for( int j = 0; j <= players[p].maxHand; j++ )
+						{
+							if( players[p].hand[j] == NULL )
+							players[sharPlayer].hand[takCard] = NULL;
+							players[p].hand[j] = players[sharPlayer].hand[takCard];
+						}
+					}
+				}
+			}
+		actions--;											//Decrease actions or back to actions menu
+		}
         
         void cure(/*Disease d[], City city[], Card card*/)//Player discards 5 same color cards to cure disease of same color
-        {
+		{
+			/**
+
                 Disease d;
                 City city;
                 Card card;
@@ -371,25 +427,25 @@ public:
                                 }
                         }
                 }
-        }
+        **/}
         
-        void pass()//Player does nothing for an action
-        {                                                                                                                //Alway shown
-			int pass=0;                                                                                        //init pass choice
-            if (pass==0)                                                                                //pass confirmation
-            {
-               cout << "Are you sure you want to pass?\n";
-               cout << "1) Yes 2) No\n";
-               cin >>  pass;                                                                                //pass choice
-            }
-            if (pass == 1)                                                                        //set actions to 0
-            {
-               if (actions>0)
-			   {
-			      actions = 0;
-               }
-			 }
-        }
+		void pass()													//Player does nothing for an action
+		{														//Alway shown
+			int pass=0;											//init pass choice
+			if (pass==0)										//pass confirmation
+			{
+			cout << "Are you sure you want to pass?\n";
+			cout << "1) Yes 2) No\n";
+			cin >>  pass;										//pass choice
+			}
+				if (pass == 1)									//set actions to 0
+				{
+					if (actions>0)
+					{
+							actions = 0;
+					}
+				}
+		}
 
         
 };

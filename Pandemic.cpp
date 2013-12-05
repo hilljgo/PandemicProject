@@ -329,7 +329,7 @@ int main()
                                                 players[p].treat();
                                                 break;
                                         case 7:
-                                                players[p].share();
+                                                players[p].share(players, p);
                                                 break;
                                         case 8:
                                                 players[p].cure();
@@ -772,7 +772,9 @@ void load()
 		for(int i = 0; i < numPlayers; i++)
 		{
 			loadFile >> value;
+			/**
 			players[i].specialAbility = value;
+			**/
 		}
 
 		
