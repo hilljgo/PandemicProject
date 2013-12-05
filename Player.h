@@ -156,14 +156,63 @@ public:
 	
 	void treat()//Removes disease cube from current city
 	{
+		Disease d;
+		City city;
+		int option;
 		//Not shown if no disease cubes on current city
-	
-		//Display current city's infection level of each disease
-		//Choose number to remove one or all (if cured) cube(s) of disease
-		//decrease actions or back to actions menu
+		if (currentCity->BlueCubes > 0 || currentCity->YellowCubes > 0 || currentCity->RedCubes > 0 || currentCity->BlackCubes > 0) {
+			//Display current city's infection level of each disease
+			cout << "This city is infected with: " << endl;
+			cout << currentCity->BlueCubes << " blue cubes" << endl;
+			cout << currentCity->YellowCubes << " yellow cubes" << endl;
+			cout << currentCity->RedCubes << " red cubes" << endl;
+			cout << currentCity->BlackCubes << " black cubes" << endl;
+			cout << "1. Treat blue\n2. Treat yellow\n3. Treat red\n4. Treat black\n";
+			cin >> option;
+
+			//Choose number to remove one or all (if cured) cube(s) of disease
+			// and decrease actions or back to actions menu
+			switch (option) {
+			case 1:
+				if (d.status == 2) city.BlueCubes = 0;
+				else {
+					currentCity->BlueCubes--;
+				}
+				actions--;
+				break;
+
+			case 2:
+				if (d.status == 2) city.YellowCubes = 0;
+				else {
+					currentCity->YellowCubes--;
+				}
+				actions--;
+				break;
+
+			case 3:
+				if (d.status == 2) city.RedCubes = 0;
+				else {
+					currentCity->RedCubes--;
+				}
+				actions--;
+				break;
+
+			case 4:
+				if (d.status == 2) city.BlackCubes = 0;
+				else {
+					currentCity->BlackCubes--;
+				}
+				actions--;
+				break;
+			default:
+				break;
+			}
+
+		}
+
 	}
 	
-		void share()												//Give or take a current city card to/from another player in the same city
+	void share()												//Give or take a current city card to/from another player in the same city
 	{															//Not shown if no other players in current city
 			int shar=0;										//init share
 			int givCard. takCard;
@@ -215,15 +264,68 @@ public:
 		players.actions = players.actions-1;											//Decrease actions or back to actions menu
 	}
 	
-	void cure()//Player discards 5 same color cards to cure disease of same color
+	void cure(/*Disease d[], City city[], Card card*/)//Player discards 5 same color cards to cure disease of same color
 	{
-		//Show if on a research station AND >=5 same color city cards AND disease is still live
-	
-		//warn player that they will discard 5 cards
-			//if >5 same color city cards, player chooses which to keep
-		//change color's disease to cured
-		//Decrease actions or back to actions menu
-	
+		Disease d;
+		City city;
+		Card card;
+		if (currentCity->researchStation == true)
+		{
+			int blu = 0, yel = 0, bla = 0, red = 0;
+			for (int i = 0; i < 7; i++)
+			{
+				switch (hand[i]->color)
+				{
+				case 1:
+					blu++;
+					break;
+				case 2:
+					yel++;
+					break;
+				case 3:
+					bla++;
+					break;
+				case 4:
+					red++;
+					break;
+				default:
+					break;
+				}
+
+			}
+			if (blu >= 5 || yel >= 5 || bla >= 5 || red >= 5)
+			{
+				cout << "Discard 5 cards?";
+				for (int i = 0; i < maxHand; i++) {
+					// displays only city cards
+					if (hand[i]) {
+						if (hand[i]->color != 0 && hand[i]->color != 5) {
+							cout << "  [" << i + 1 << "]  " << hand[i]->name << endl;
+							if (blu >= 5 || yel >= 5 || bla >= 5 || red >= 5) {
+								cout << blu << endl;
+								cout << yel << endl;
+								cout << bla << endl;
+								cout << red << endl;
+							}
+						}
+					}
+				}
+				cout << "1. Cure blue/n2. Cure yellow/n3. Cure black/n4. Cure red";
+				int option;
+				cin >> option;
+				if (option == 1 || option == 2 || option == 3 || option == 4) {
+					int c = 0;
+					do {
+						if (hand[c]->color == option) {
+							card.status = 2;
+							hand[c] = NULL;
+							d.status = 2;
+							actions--;
+						}
+					} while (c <= 5);
+				}
+			}
+		}
 	}
 
 	void pass()													//Player does nothing for an action
