@@ -181,6 +181,16 @@ int main()
                                         cout << players[p].hand[i]->name << endl;
                         }
                         cout << "\nPlayer " << p+1 << "'s location: " << players[p].currentCity->name;
+                        
+                        cout << "\n***";
+                    if (players[p].specialAbility == 1)
+                        cout << "Operations Expert***" << endl;
+                    if (players[p].specialAbility == 2)
+                        cout << "Scientist***" << endl;
+                    if (players[p].specialAbility == 3)
+                        cout << "Medic***" << endl;
+                    if (players[p].specialAbility == 4)
+                    
                         cout << "\nPlayer " << p+1 << " has " << players[p].actions << " action(s) left.\n\n";
 
                         //display available actions (drive/ferry, flights, others)
@@ -787,21 +797,21 @@ void load()
 	}
 }
 void randSP(){
-    players[1].specialAbility = rand() % 4 + 1; // random # 1-4
+    players[0].specialAbility = rand() % 4 + 1; // random # 1-4
+    
+    do {
+        players[1].specialAbility = rand() % 4 + 1; // random # 1-4
+    }while(players[1].specialAbility == players[0].specialAbility); // reassign while p1 = p2
+    
     
     do {
         players[2].specialAbility = rand() % 4 + 1; // random # 1-4
-    }while(players[2].specialAbility == players[1].specialAbility); // reassign while p1 = p2
-    
+    } while ((players[2].specialAbility == players[1].specialAbility) ||
+             (players[2].specialAbility == players[0].specialAbility));
     
     do {
         players[3].specialAbility = rand() % 4 + 1; // random # 1-4
-    } while ((players[3].specialAbility == players[2].specialAbility) &&
-             (players[3].specialAbility == players[1].specialAbility));
-    
-    do {
-        players[4].specialAbility = rand() % 4 + 1; // random # 1-4
-    } while ((players[4].specialAbility == players[3].specialAbility) &&
-             (players[4].specialAbility == players[2].specialAbility) &&
-             (players[4].specialAbility == players[1].specialAbility));
+    } while ((players[3].specialAbility == players[2].specialAbility) ||
+             (players[3].specialAbility == players[1].specialAbility) ||
+             (players[3].specialAbility == players[0].specialAbility));
 }
