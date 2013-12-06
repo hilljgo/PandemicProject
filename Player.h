@@ -16,7 +16,7 @@ public:
 	static const int maxHand = 7;
 	Card *hand[maxHand + 1];                        //Cards in this player's hand
 	City *currentCity;                //City this player is in
-	static const int specialAbility = 0;
+	int specialAbility = 0;
 
 	//may add parameters for actions
 
@@ -27,6 +27,153 @@ public:
 		currentCity = NULL; //should be assigned to Atlanta via main
 	}
 
+	void special(Player p[4], City *earth, int numP, Disease diseases[]){
+		int choice = 0;
+		int pswitch1, pswitch2;
+		switch (specialAbility) {
+			////Operations
+		case 1:
+			cout << "\nAs the Operations Expert you can Build any Research Station withoud discarding"
+				<< " or Move to any research Station by discarding any city card" << endl;
+			// get choice
+			cout << "\n1.Build\n2.Shuttle\n3.Menu" << endl;
+			cin >> choice;
+			// call appropriate function
+			if (choice == 1)
+				build();
+			else if (choice == 2){
+
+				for (int i = 0; i < maxHand; i++)
+					// displays only city cards
+				if (hand[i] && (hand[i]->color != 0 || hand[i]->color != 5))
+				{
+					cout << "  [" << i + 1 << "]  " << hand[i]->name << endl;
+
+				}
+				cout << "Discard which card: ";
+				cin >> pswitch1;
+
+				hand[pswitch1 - 1]->status = 2;
+				hand[pswitch1 - 1] = NULL;
+
+				shuttle(earth);
+			}
+			else
+				break;
+			break;
+			/////Scientist
+		case 2:
+			cout << "\nAs the Scientist you can Cure with only 4 of the same colored"
+				<< " cards" << endl;
+			int b, y, r, blk;
+			b = y = blk = r = 0;
+			for (int i = 0; i < 7; i++) {
+				if (hand[i] && hand[i]->color == 1)b++;
+				else if (hand[i] && hand[i]->color == 2)y++;
+				else if (hand[i] && hand[i]->color == 3)blk++;
+				else if (hand[i] && hand[i]->color == 4)r++;
+			}
+			if (b == 4 || y == 4 || blk == 4 || r == 4){
+				cout << "Currently have 4 cards of the same color did you want to cure? "
+					<< " 1. Yes\n 2.No" << endl;
+				cin >> choice;
+				if (choice == 1)
+					cure(diseases, earth);
+				else
+					break;
+			}
+			else
+				cout << " Currently have less than 4 Cards of same color, Special "
+				<< "Ability is not available" << endl;
+			break;
+			////Medic
+		case 3:
+			cout << "\nAs the Medic you can treat a whole disease if a cure has"
+				<< " been found you automatically cure a disease when entering" << endl;
+			// get choice
+			if (currentCity->BlueCubes > 0){
+				cout << "Can Treat all of Blue Cubes" << endl;
+				cout << "1.Treat\n2.Skip" << endl;
+				cin >> choice;
+				if (choice == 1)
+					treat();
+			}
+			else if (currentCity->YellowCubes > 0){
+				cout << "Can Treat all of Yellow Cubes" << endl;
+				cout << "1.Treat\n2.Skip" << endl;
+				cin >> choice;
+				if (choice == 1)
+					treat();
+			}
+			else if (currentCity->BlackCubes > 0){
+				cout << "Can Treat all of Black Cubes" << endl;
+				cout << "1.Treat\n2.Skip" << endl;
+				cin >> choice;
+				if (choice == 1)
+					treat();
+			}
+			else if (currentCity->RedCubes > 0){
+				cout << "Can Treat all of Red Cubes" << endl;
+				cout << "1.Treat\n2.Skip" << endl;
+				cin >> choice;
+				if (choice == 1)
+					treat();
+			}
+			// call appropriate function
+			else
+				cout << "\nCurrent City has no Cubes to treat" << endl;
+			break;
+			////Dispatcher
+		default:
+			cout << "\nAs the Dispatcher you can move other players to another location "
+				<< "or you can move them as your own piece" << endl;
+			// get choice
+			cout << "\n1.Move Player to Player\n2.Move Other player\n3.Skip" << endl;
+			// call appropriate function
+			cin >> choice;
+			if (choice == 1){
+				cout << " Move Which Players? " << endl;
+				for (int i = 0; i < numP; i++) {
+					cout << "Player " << i + 1 << " is currently in "
+						<< p[i].currentCity->name << endl;
+				}
+
+				do{
+					cout << "\n Move Player: ";
+					cin >> pswitch1;
+				} while (pswitch1 > numP);
+
+				do{
+					cout << "\n To Player: ";
+					cin >> pswitch2;
+				} while (pswitch2 > numP && pswitch2 != pswitch1);
+
+				p[pswitch1].currentCity = p[pswitch2].currentCity;
+
+				cout << "Player " << pswitch1 << " & " << pswitch2 << " currently in "
+					<< p[pswitch1].currentCity->name << endl;
+
+
+			}
+			else if (choice == 2){ // ask player who to move
+				cout << " Move which Player?" << endl;
+
+				// display current locations of players
+				for (int i = 0; i < numP; i++) {
+					cout << "Player " << i + 1 << " is currently in "
+						<< p[i].currentCity->name << endl;
+				}
+				//take choice
+				cin >> pswitch1;
+
+				//call move function
+				p[pswitch1].move();
+			}
+			else
+				break;
+			break;
+		}
+	}
 	//moves player to connecting city
 	void move()
 	{
@@ -255,16 +402,81 @@ public:
 
 	}
 
-	void share()//Give or take a current city card to/from another player in the same city
-	{
-		//Not shown if no other players in current city
+	void share(Player players[4], int p)                                                                                                //Give or take a current city card to/from another player in the same city
+	{                                                                                                                //Not shown if no other players in current city
+		int shar = 0, maxHand = 7;                                                                                        //init share
+		int givCard, takCard, sharPlayer;
 
-		//Display give or take if able to
-		//Player chooses which
-		//Display available cards to give/take
-		//Player chooses
-		//If current hand is >7, player chooses to discard until 7
-		//Decrease actions or back to actions menu
+		for (int k = 0; k < 7; k++)
+		{
+			if (players[p].hand[k] && players[p].hand[k]->name == players[p].currentCity->name)
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					if (players[p].currentCity == players[i].currentCity)
+						sharPlayer = i;
+				}
+			}
+		}
+		while (shar != 1 || shar != 2)
+		{
+			cout << "Give or Take Card?\n";                                                //prompt to give or take card
+			cout << " 1) Give 2) Take\n";
+			cin >> shar;                                                                                //Player chooses which
+			if (shar == 1 || players[p].hand > 0)                                                //verify player has card to give
+			{
+				cout << "\nPlayer's cards in hand:\n";
+				for (int i = 0; i < 7; i++)
+				{
+					if (players[p].hand[i] && players[p].hand[i]->status == 1)
+					{
+						cout << players[p].hand[i]->name << endl;
+					}
+				}
+				cout << "Choose which card to give (0-6)\n";
+				cin >> givCard;
+				if (givCard != 0 || givCard != 1 || givCard != 2 || givCard != 3 || givCard != 4 || givCard != 5 || givCard != 6)
+				{
+					cout << "Please choose a valid card #\n";
+				}
+				else
+				{
+					for (int j = 0; j <= maxHand; j++)
+					{
+						if (hand[j] == NULL)
+							players[sharPlayer].hand[j] = players[p].hand[givCard];
+						players[p].hand[givCard] = NULL;
+					}
+				}
+			}
+			if (shar == 2 || players[sharPlayer].hand > 0)                //verify player has card to take
+			{
+				cout << "\nPlayer's cards in hand:\n";
+				for (int i = 0; i < 7; i++)
+				{
+					if (players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->status == 1)
+					{
+						cout << players[sharPlayer].hand[i]->name << endl;
+					}
+				}
+				cout << "Choose which card to take (0-6)\n";
+				cin >> takCard;
+				if (takCard != 0 || takCard != 1 || takCard != 2 || takCard != 3 || takCard != 4 || takCard != 5 || takCard != 6)
+				{
+					cout << "Please choose a valid card #\n";
+				}
+				else
+				{
+					for (int j = 0; j <= players[p].maxHand; j++)
+					{
+						if (players[p].hand[j] == NULL)
+							players[sharPlayer].hand[takCard] = NULL;
+						players[p].hand[j] = players[sharPlayer].hand[takCard];
+					}
+				}
+			}
+		}
+		actions--;                                                                                        //Decrease actions or back to actions menu
 	}
 
 	void cure(Disease d[], City city[])//Player discards 5 same color cards to cure disease of same color
@@ -323,6 +535,7 @@ public:
 						}
 					} while (c < 5);
 					actions--;
+					d[option].status = 2;
 				}
 			}
 		}
