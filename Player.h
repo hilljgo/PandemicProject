@@ -96,7 +96,7 @@ public:
                     << " 1. Yes\n 2.No" << endl;
                     cin >> choice;
                     if (choice == 1)
-                        cure();
+                        cure(diseases, earth);
                     else
                         break;
                 }
