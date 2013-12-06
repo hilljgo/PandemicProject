@@ -346,7 +346,7 @@ int main()
                                                 players[p].share(players, p);
                                                 break;
                                         case 8:
-                                                players[p].cure();
+                                                players[p].cure(diseases, earth);
                                                 break;
                                         case 9:
                                                 players[p].pass();
