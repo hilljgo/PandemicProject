@@ -25,24 +25,60 @@ public:
                 currentCity = NULL; //should be assigned to Atlanta via main
         }
 
-   	void special(Player p[4],City *earth){
+class Player
+{
+public:
+        int color;                                //Which role this player is
+        int actions;                        //How many actions this player has left
+        static const int maxActions = 4;
+        static const int maxHand = 7;
+        Card *hand[maxHand+1];                        //Cards in this player's hand
+        City *currentCity;                //City this player is in
+		int specialAbility; // 1 = Operations Expert, 2 = Scientist, 3 = Medic, 4 = Dispatcher
+        //may add parameters for actions
+
+        Player()
+        {
+                color = 0; //should be assigned randomly
+                actions = 4;
+                currentCity = NULL; //should be assigned to Atlanta via main
+        }
+    
+ void special(Player p[4],City *earth, int numP){
         int choice = 0;
-        int pswitch;
+        int pswitch1,pswitch2;
         switch (specialAbility) {
+////Operations
             case 1:
-                cout << "\nAs the Operations Expert you can Build any Research Station"
-                << " or Move to any research Station without discarding" << endl;
+                cout << "\nAs the Operations Expert you can Build any Research Station withoud discarding"
+                << " or Move to any research Station by discarding any city card" << endl;
                 // get choice
-                cout << "\n1.Build\n2.Shuttle" << endl;
+                cout << "\n1.Build\n2.Shuttle\n3.Menu" << endl;
                 cin >> choice;
                 // call appropriate function
                 if (choice == 1)
                     build();
-                else if (choice == 2)
+                else if (choice == 2){
+                    
+                    for (int i = 0; i < maxHand; i++)
+                        // displays only city cards
+                        if (hand[i] && (hand[i]->color != 0 || hand[i]->color != 5))
+                        {
+                            cout << "  [" << i+1 << "]  " << hand[i]->name << endl;
+                            
+                        }
+                    cout << "Discard which card: ";
+                    cin >> pswitch1;
+                    
+                    hand[pswitch1-1]->status = 2;
+                    hand[pswitch1-1] = NULL;
+
                     shuttle(earth);
+                }
                 else
                     break;
                 break;
+/////Scientist
             case 2:
                 cout << "\nAs the Scientist you can Cure with only 4 of the same colored"
                 << " cards" << endl;
@@ -67,7 +103,7 @@ public:
                     cout << " Currently have less than 4 Cards of same color, Special "
                     << "Ability is not available" << endl;
                 break;
-                
+////Medic
             case 3:
                 cout << "\nAs the Medic you can treat a whole disease if a cure has"
                 << " been found you automatically cure a disease when entering"<< endl;
@@ -104,6 +140,7 @@ public:
                 else
                     cout << "\nCurrent City has no Cubes to treat" << endl;
                 break;
+////Dispatcher
             default:
                 cout << "\nAs the Dispatcher you can move other players to another location "
                 << "or you can move them as your own piece"<< endl;
@@ -111,10 +148,44 @@ public:
                 cout << "\n1.Move Player to Player\n2.Move Other player\n3.Skip" << endl;
                 // call appropriate function
                 cin >> choice;
-                if (choice == 1)
+                if (choice == 1){
                     cout << " Move Which Players? " << endl;
-                else if (choice == 2)
+                    for (int i = 0; i < numP; i++) {
+                        cout << "Player " << i + 1 << " is currently in "
+                        << p[i].currentCity->name << endl;
+                    }
+                    
+                    do{
+                        cout << "\n Move Player: ";
+                        cin >> pswitch1;
+                    }while(pswitch1 > numP);
+                    
+                    do{
+                        cout << "\n To Player: ";
+                        cin >> pswitch2;
+                    }while(pswitch2 > numP && pswitch2 != pswitch1);
+                    
+                    p[pswitch1].currentCity = p[pswitch2].currentCity;
+                    
+                    cout << "Player " << pswitch1 << " & " << pswitch2 << " currently in "
+                    << p[pswitch1].currentCity->name << endl;
+                    
+                    
+                }
+                else if (choice == 2){ // ask player who to move
                     cout << " Move which Player?" << endl;
+                    
+                    // display current locations of players
+                    for (int i = 0; i < numP; i++) {
+                        cout << "Player " << i + 1 << " is currently in "
+                        << p[i].currentCity->name << endl;
+                    }
+                    //take choice
+                    cin >> pswitch1;
+                    
+                    //call move function
+                    p[pswitch1].move();
+                }
                 else
                     break;
                 break;
