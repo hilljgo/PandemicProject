@@ -345,7 +345,9 @@ int main()
 						players[p].pass();
 						break;
 					case 0:
+						/*
 						players[p].special(players, earth, numPlayers, diseases);
+						*/
 						break;
 					default:
 						cout << "Invalid choice. Please choose again\n";
@@ -627,7 +629,9 @@ void discard(Player &play)
 	} while (choice == 10);
 }
 
-void randSP(){
+void randSP()
+	{
+	/*
 	players[0].specialAbility = rand() % 4 + 1; // random # 1-4
 
 	do {
@@ -645,7 +649,8 @@ void randSP(){
 	} while ((players[3].specialAbility == players[2].specialAbility) ||
 		(players[3].specialAbility == players[1].specialAbility) ||
 		(players[3].specialAbility == players[0].specialAbility));
-}
+		*/
+		}
 
 void save(int numPlayers)
 {

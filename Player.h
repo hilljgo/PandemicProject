@@ -26,8 +26,8 @@ public:
                 currentCity = NULL; //should be assigned to Atlanta via main
         }
 
-    
- void special(Player p[4],City *earth, int numP){
+    /*
+		void special(Player p[4],City *earth, int numP){
         int choice = 0;
         int pswitch1,pswitch2;
         switch (specialAbility) {
@@ -175,6 +175,7 @@ public:
         }
     }
         //moves player to connecting city
+	**/
         void move()
         {
                 //Always shown
