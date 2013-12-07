@@ -469,11 +469,11 @@ public:
 			case 3:
 				if (d[3].status == 2)
 				{
-					d[3].cubes = d[3].cubes + currentCity->BlackCubes;
-					currentCity->BlackCubes = 0;
+					d[3].cubes = d[3].cubes + currentCity->RedCubes;
+					currentCity->RedCubes = 0;
 				}
 				else {
-					currentCity->BlackCubes--;
+					currentCity->RedCubes--;
 					d[3].cubes++;
 				}
 				actions--;
