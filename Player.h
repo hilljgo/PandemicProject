@@ -26,24 +26,6 @@ public:
                 currentCity = NULL; //should be assigned to Atlanta via main
         }
 
-class Player
-{
-public:
-        int color;                                //Which role this player is
-        int actions;                        //How many actions this player has left
-        static const int maxActions = 4;
-        static const int maxHand = 7;
-        Card *hand[maxHand+1];                        //Cards in this player's hand
-        City *currentCity;                //City this player is in
-		int specialAbility; // 1 = Operations Expert, 2 = Scientist, 3 = Medic, 4 = Dispatcher
-        //may add parameters for actions
-
-        Player()
-        {
-                color = 0; //should be assigned randomly
-                actions = 4;
-                currentCity = NULL; //should be assigned to Atlanta via main
-        }
     
  void special(Player p[4],City *earth, int numP){
         int choice = 0;
@@ -282,8 +264,7 @@ public:
         
         }
         
-        
-		
+	
 		void charter(City earth[48])//Player discards current city card to go to any city
         {
                 int city;
@@ -453,82 +434,95 @@ public:
 
         **/}
         
-		void share(Player players[4], int p)												//Give or take a current city card to/from another player in the same city
-	{														//Not shown if no other players in current city
-			int shar=0, maxHand = 7;											//init share
-			int givCard, takCard, sharPlayer;
-			
-			for( int k = 0; k < 7; k++ )
-			{
-				if( players[p].hand[k] && players[p].hand[k]->name == players[p].currentCity->name )
+	void share(Player players[4], int p)					//Give or take a current city card to/from another player in the same city
+	{	int shar=0, maxHand = 6;							//Not shown if no other players in current city
+		int givCard, takCard, sharPlayer;				//init share
+
+			for( int i = 0; i < 4; i++ )
 				{
-					for( int i = 0; i < 4; i++ )
-					 {
-						if( players[p].currentCity == players[i].currentCity )
-							sharPlayer = i;
-					 }
-             	}
-			}
-			while (shar!=1 || shar!=2)
-			{
-            cout << "Give or Take Card?\n";						//prompt to give or take card
-			cout << " 1) Give 2) Take\n";
-			cin >> shar;										//Player chooses which
-				if (shar==1 || players[p].hand>0)						//verify player has card to give
-				{  
-				cout << "\nPlayer's cards in hand:\n";
-					for(int i = 0; i < 7; i++)
+					if ( players[p].currentCity == players[i].currentCity && p != i )
 					{
-						if( players[p].hand[i] && players[p].hand[i]->status == 1 )
-						{
-						cout << players[p].hand[i]->name << endl;
-						}
-					}
-				cout << "Choose which card to give (0-6)\n";
-				cin >> givCard;
-					if ( givCard != 0 || givCard != 1 || givCard != 2 || givCard != 3 || givCard != 4 || givCard != 5 || givCard != 6)
-					{
-					cout << "Please choose a valid card #\n";
-					}
-					else
-					{
-						for( int j = 0; j <= maxHand; j++ )
-						{
-							if( hand[j] == NULL )
-								players[sharPlayer].hand[j] = players[p].hand[givCard];
-								players[p].hand[givCard] = NULL;
-						}
+					sharPlayer = i;
 					}
 				}
-				if (shar==2 || players[sharPlayer].hand>0)		//verify player has card to take
-				{  
-				cout << "\nPlayer's cards in hand:\n";
-					for(int i = 0; i < 7; i++)
-					{
-						if( players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->status == 1 )
-						{
-						cout << players[sharPlayer].hand[i]->name << endl;
-						}
-					}
-				cout << "Choose which card to take (0-6)\n";
-				cin >> takCard;
-					if ( takCard != 0 || takCard != 1 || takCard != 2 || takCard != 3 || takCard != 4 || takCard != 5 || takCard != 6)
-					{
-					cout << "Please choose a valid card #\n";
-					}
-					else
-					{
-						for( int j = 0; j <= players[p].maxHand; j++ )
-						{
-							if( players[p].hand[j] == NULL )
-							players[sharPlayer].hand[takCard] = NULL;
-							players[p].hand[j] = players[sharPlayer].hand[takCard];
-						}
-					}
-				}
-			}
-		actions--;											//Decrease actions or back to actions menu
+
+		cout << "Give or Take Card?\n";						//prompt to give or take card
+		cout << " 1) Give 2) Take\n";
+		cin >> shar;
+		while ( shar != 1 && shar != 2)
+		{
+		cout << "Invalid choice, choose again.";
+		cin >> shar;
 		}
+		if (shar==1)									//Give function
+		{  
+		cout << "\nPlayer " << p+1 <<"'s cards in hand:\n";
+			for(int i = 0; i < 7; i++)
+			{
+				if( players[p].hand[i] && players[p].hand[i]->status == 1 )
+				{
+				cout << i << ". " << players[p].hand[i]->name << endl;
+				}
+			}
+		cout << "Choose which card to give Player " << sharPlayer+1 <<" (0-6)\n";
+		cin >> givCard;
+			while ( givCard != 0 && givCard != 1 && givCard != 2 && givCard != 3 && givCard != 4 && givCard != 5 && givCard != 6)
+			{
+			cout << "Please choose a valid card #\n";
+			cin >> givCard;
+			}
+			while ( players[p].hand[givCard] == NULL)
+			{
+			cout << "Player " << p+1 << " does not have that card.\n";
+			cout << "Please choose a valid card.\n";
+			cin >> givCard;
+			}
+			for ( int i = 0; i <= maxHand; i++ )
+			{
+				if( players[sharPlayer].hand[i] == NULL )
+				{
+				players[sharPlayer].hand[i] = players[p].hand[givCard];
+				players[p].hand[givCard] = NULL;
+				maxHand = 7;
+				}
+			}
+		}
+		if (shar==2)		//verify player has card to take
+		{  
+		cout << "\nPlayer " << sharPlayer+1 << "'s cards in hand:\n";
+			for(int i = 0; i < 7; i++)
+			{
+				if( players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->status == 1 )
+				{
+				cout << i << players[sharPlayer].hand[i]->name << endl;
+				}
+			}
+		cout << "Choose which card to take (0-6)\n";
+		cin >> takCard;
+			while ( takCard != 0 && takCard != 1 && takCard != 2 && takCard != 3 && takCard != 4 && takCard != 5 && takCard != 6)
+			{
+			cout << "Please choose a valid card\n";
+			cin >> takCard;
+			}
+			while ( players[sharPlayer].hand[takCard] == NULL)
+			{
+			cout << "Player " << p+1 << " does not have that card.\n";
+			cout << "Please choose a valid card.\n";
+			cin >> takCard;
+			}
+			for ( int i = 0; i <= maxHand; i++ )
+			{
+				if( players[p].hand[i] == NULL )
+				{
+				players[p].hand[i] = players[sharPlayer].hand[takCard];
+				players[sharPlayer].hand[takCard] = NULL;
+				maxHand = 7;
+				}
+
+			}
+		}
+		actions--;											//Decrease actions or back to actions menu
+	}
         
         void cure(Disease d[], City city[])//Player discards 5 same color cards to cure disease of same color
 	{
@@ -592,21 +586,20 @@ public:
 		}
 	}
         
-		void pass()													//Player does nothing for an action
+		void pass()												//Player does nothing for an action
 		{														//Alway shown
 			int pass=0;											//init pass choice
-			if (pass==0)										//pass confirmation
-			{
 			cout << "Are you sure you want to pass?\n";
 			cout << "1) Yes 2) No\n";
 			cin >>  pass;										//pass choice
+			while (pass != 1 && pass!=2)										//pass confirmation
+			{
+				cout << "Invalid Choice.\n Choose Again.";
+				cin >> pass;
 			}
-				if (pass == 1)									//set actions to 0
+			if (pass == 1)									//set actions to 0
 				{
-					if (actions>0)
-					{
-							actions = 0;
-					}
+					actions = 0;
 				}
 		}
 
