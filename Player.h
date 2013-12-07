@@ -10,24 +10,28 @@ using namespace std;
 class Player
 {
 public:
-	int color;                                //Which role this player is
-	int actions;                        //How many actions this player has left
+	int actions;			//How many actions this player has left
+	int specialAbility;		//Which role this player is
 	static const int maxActions = 4;
 	static const int maxHand = 7;
-	Card *hand[maxHand + 1];                        //Cards in this player's hand
-	City *currentCity;                //City this player is in
-	int specialAbility = 0;
+	Card *hand[maxHand + 1];			//Cards in this player's hand
+	City *currentCity;		//City this player is in
 
 	//may add parameters for actions
 
 	Player()
 	{
-		color = 0; //should be assigned randomly
 		actions = 4;
+		specialAbility = 0;
 		currentCity = NULL; //should be assigned to Atlanta via main
+		for (int i = 0; i < maxHand; i++)
+		{
+			hand[i] = NULL;
+		}
 	}
 
-	void special(Player p[4], City *earth, int numP, Disease diseases[]){
+
+	void special(Player p[4], City *earth, int numP, Disease diseases[], int &researchStations){
 		int choice = 0;
 		int pswitch1, pswitch2;
 		switch (specialAbility) {
@@ -39,8 +43,8 @@ public:
 			cout << "\n1.Build\n2.Shuttle\n3.Menu" << endl;
 			cin >> choice;
 			// call appropriate function
-			if (choice == 1)
-				build();
+			if (choice == 1 && !currentCity->researchStation)
+				build(researchStations, earth);
 			else if (choice == 2){
 
 				for (int i = 0; i < maxHand; i++)
@@ -78,7 +82,9 @@ public:
 					<< " 1. Yes\n 2.No" << endl;
 				cin >> choice;
 				if (choice == 1)
+				{
 					cure(diseases, earth);
+				}
 				else
 					break;
 			}
@@ -88,7 +94,7 @@ public:
 			break;
 			////Medic
 		case 3:
-			cout << "\nAs the Medic you can treat a whole disease if a cure has"
+			cout << "\nAs the Medic you can treat a whole disease and if a cure has"
 				<< " been found you automatically cure a disease when entering" << endl;
 			// get choice
 			if (currentCity->BlueCubes > 0){
@@ -96,28 +102,52 @@ public:
 				cout << "1.Treat\n2.Skip" << endl;
 				cin >> choice;
 				if (choice == 1)
-					treat();
+				{
+					while (currentCity->BlueCubes)
+					{
+						currentCity->BlueCubes--;
+						diseases[1].cubes++;
+					}
+				}
 			}
-			else if (currentCity->YellowCubes > 0){
+			if (currentCity->YellowCubes > 0){
 				cout << "Can Treat all of Yellow Cubes" << endl;
 				cout << "1.Treat\n2.Skip" << endl;
 				cin >> choice;
 				if (choice == 1)
-					treat();
+				{
+					while (currentCity->YellowCubes)
+					{
+						currentCity->YellowCubes--;
+						diseases[2].cubes++;
+					}
+				}
 			}
-			else if (currentCity->BlackCubes > 0){
+			if (currentCity->BlackCubes > 0){
 				cout << "Can Treat all of Black Cubes" << endl;
 				cout << "1.Treat\n2.Skip" << endl;
 				cin >> choice;
 				if (choice == 1)
-					treat();
+				{
+					while (currentCity->BlackCubes)
+					{
+						currentCity->BlackCubes--;
+						diseases[3].cubes++;
+					}
+				}
 			}
-			else if (currentCity->RedCubes > 0){
+			if (currentCity->RedCubes > 0){
 				cout << "Can Treat all of Red Cubes" << endl;
 				cout << "1.Treat\n2.Skip" << endl;
 				cin >> choice;
 				if (choice == 1)
-					treat();
+				{
+					while (currentCity->RedCubes)
+					{
+						currentCity->RedCubes--;
+						diseases[4].cubes++;
+					}
+				}
 			}
 			// call appropriate function
 			else
@@ -174,38 +204,72 @@ public:
 			break;
 		}
 	}
+
 	//moves player to connecting city
 	void move()
 	{
 		//Always shown
-
+		int num = 1;
 		cout << "Available cities to drive/ferry to:\n";
 		cout << "1. " << currentCity->connectOne->name << endl;
 		if (currentCity->connectTwo)
+		{
 			cout << "2. " << currentCity->connectTwo->name << endl;
+			num++;
+		}
 		if (currentCity->connectThree)
+		{
 			cout << "3. " << currentCity->connectThree->name << endl;
+			num++;
+		}
 		if (currentCity->connectFour)
+		{
 			cout << "4. " << currentCity->connectFour->name << endl;
+			num++;
+		}
 		if (currentCity->connectFive)
+		{
 			cout << "5. " << currentCity->connectFive->name << endl;
+			num++;
+		}
+		if (currentCity->connectSix)
+		{
+			cout << "6. " << currentCity->connectSix->name << endl;
+			num++;
+		}
 		int n;
-		cout << "City number to move to\n";
-		cin >> n;
-		if (n == 0)
-			return;
-		if (n == 1)
-			currentCity = currentCity->connectOne;
-		if (n == 2)
-			currentCity = currentCity->connectTwo;
-		if (n == 3)
-			currentCity = currentCity->connectThree;
-		if (n == 4)
-			currentCity = currentCity->connectFour;
-		if (n == 6)
-			currentCity = currentCity->connectFive;
-		//Statements to make current city the appropriate city & decrease actions
-		//0 should go back to initial player action menu without decreasing
+		do
+		{
+			cout << "City number to move to: ";
+			cin >> n;
+			//Statements to make current city the appropriate city & decrease actions
+			//0 should go back to initial player action menu without decreasing
+
+			if (n == 0)
+				return;
+			else if (n == 1)
+				currentCity = currentCity->connectOne;
+			else if (n == 2 && num >= 2)
+				currentCity = currentCity->connectTwo;
+			else if (n == 3 && num >= 3)
+				currentCity = currentCity->connectThree;
+			else if (n == 4 && num >= 4)
+				currentCity = currentCity->connectFour;
+			else if (n == 5 && num >= 5)
+				currentCity = currentCity->connectFive;
+			else if (n == 6 && num >= 6)
+				currentCity = currentCity->connectSix;
+			else
+			{
+				cout << "Invalid choice.\n";
+				n = 10;
+			}
+		} while (n == 10);
+		if (specialAbility == 3)
+		{
+
+		}
+		actions--;
 	}
 
 	void direct(City earth[48])//Player discards city card to go to that city
@@ -227,7 +291,7 @@ public:
 		cin >> city;
 
 		//change current city & decrease actions or go back to actions menu
-		if (city != 0){
+		if (city != 0 && hand[city - 1]){
 			cout << "\n Flying From " << currentCity->name << " to " << hand[city - 1]->name << endl;
 
 			///Have to change because hand array becomes pointers
@@ -267,7 +331,7 @@ public:
 			currentCity = &earth[city - 1];
 			for (int i = 0; i < 7; i++)
 			{
-				if (hand[i]->name == currentCity->name)
+				if (hand[i] && hand[i]->name == currentCity->name)
 					cout << "something" << endl;
 			}
 			actions--;
@@ -296,7 +360,7 @@ public:
 		cin >> city;
 
 		//change current city & decrease actions or go back to actions menu
-		if (city != 0){
+		if (city > 0 && city <= a){
 			cout << "\n Flying From " << currentCity->name << " to " << earth[stations[city - 1]].name << endl;
 
 			currentCity = &earth[stations[city - 1]];
@@ -304,50 +368,63 @@ public:
 		}
 	}
 
-	void build()//Builds a research station in current city
+	void build(int &researchStations, City earth[])//Builds a research station in current city
 	{
-		string response;
-		string response2;
-		if (response == "Yes")
+		if (specialAbility == 0)
 		{
-
-			//check if player is operations specialist
-			if (specialAbility == 0)
-			{
-				cout << "Do you want to use your special ability?: yes/no" << endl;
-				cin >> response2;
-				if (response2 == "yes")
-				{
-					currentCity->researchStation = true;
-					actions = actions - 1;
-					return;
-				}
-
-			}
-
+			currentCity->researchStation = true;
+			researchStations++;
+			actions = actions - 1;
+		}
+		else
+		{
 			for (int i = 0; i < 7; i++) // run through player hand to see if they have the card
 			{
 				if (currentCity->name == hand[i]->name) //if current city name matches the name of a card the player has
 				{
 					currentCity->researchStation = true; //the current city now has a research station
 					cout << "Research Station placed on " << currentCity->name << endl;
+					researchStations++;
+					hand[i]->status = 2;
+					hand[i] = NULL;
 					actions = actions - 1; // take an actions away
 				}
-
 			}
-		}
-		if (response == "No")
-			cout << "No research stations place" << endl;
-
-		else
 			cout << "You dont have the current city's card in your hand, therefore you cannot place a research station" << endl;
+		}
+		if (researchStations > 6)
+		{
+			int choice;
+			do
+			{
+				cout << "You must remove a research Station.\n";
+				for (int i = 0; i < 48; i++)
+				{
+					if (earth[i].researchStation)
+					{
+						cout << i + 1 << ". " << earth[i].name << endl;
+					}
+				}
+				cin >> choice;
+				if (earth[choice - 1].researchStation)
+				{
+					earth[choice - 1].researchStation = false;
+					researchStations--;
+				}
+			} while (researchStations > 6);
+		}
 
+		//Not shown if research station already built and if player does not have current city card
+
+		//Display current cities with research stations
+		//Yes or no to build one in current city
+		//Change city's researchStation to true
+		//If researchStations = 6, let player choose another research station to remove
+		//decrease actions or back to actions menu
 	}
 
-	void treat()//Removes disease cube from current city
+	void treat(Disease d[])//Removes disease cube from current city
 	{
-		Disease d;
-		City city;
 		int option;
 		//Not shown if no disease cubes on current city
 		if (currentCity->BlueCubes > 0 || currentCity->YellowCubes > 0 || currentCity->RedCubes > 0 || currentCity->BlackCubes > 0) {
@@ -364,33 +441,53 @@ public:
 			// and decrease actions or back to actions menu
 			switch (option) {
 			case 1:
-				if (d.status == 2) currentCity->BlueCubes = 0;
+				if (d[1].status == 2)
+				{
+					d[1].cubes = d[1].cubes + currentCity->BlueCubes;
+					currentCity->BlueCubes = 0;
+				}
 				else {
 					currentCity->BlueCubes--;
+					d[1].cubes++;
 				}
 				actions--;
 				break;
 
 			case 2:
-				if (d.status == 2) currentCity->YellowCubes = 0;
+				if (d[2].status == 2)
+				{
+					d[2].cubes = d[2].cubes + currentCity->YellowCubes;
+					currentCity->YellowCubes = 0;
+				}
 				else {
 					currentCity->YellowCubes--;
+					d[2].cubes++;
 				}
 				actions--;
 				break;
 
 			case 3:
-				if (d.status == 2) currentCity->RedCubes = 0;
+				if (d[3].status == 2)
+				{
+					d[3].cubes = d[3].cubes + currentCity->BlackCubes;
+					currentCity->BlackCubes = 0;
+				}
 				else {
-					currentCity->RedCubes--;
+					currentCity->BlackCubes--;
+					d[3].cubes++;
 				}
 				actions--;
 				break;
 
 			case 4:
-				if (d.status == 2) currentCity->BlackCubes = 0;
+				if (d[4].status == 2)
+				{
+					d[4].cubes = d[4].cubes + currentCity->BlackCubes;
+					currentCity->BlackCubes = 0;
+				}
 				else {
 					currentCity->BlackCubes--;
+					d[4].cubes++;
 				}
 				actions--;
 				break;
@@ -402,81 +499,87 @@ public:
 
 	}
 
-	void share(Player players[4], int p)                                                                                                //Give or take a current city card to/from another player in the same city
-	{                                                                                                                //Not shown if no other players in current city
-		int shar = 0, maxHand = 7;                                                                                        //init share
-		int givCard, takCard, sharPlayer;
+	void share(Player players[4], int p)		//Give or take a current city card to/from another player in the same city
+	{											 //Not shown if no other players in current city
+		int shar = 0, maxHand = 7;		//init share
+		int sharPlayer;
+		bool available[4] = { 0, 0, 0, 0 };
 
-		for (int k = 0; k < 7; k++)
+		for (int i = 0; i < 4; i++)
 		{
-			if (players[p].hand[k] && players[p].hand[k]->name == players[p].currentCity->name)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					if (players[p].currentCity == players[i].currentCity)
-						sharPlayer = i;
-				}
-			}
+			if (players[p].currentCity == players[i].currentCity && &players[p] != &players[i])
+				available[i] = true;
 		}
-		while (shar != 1 || shar != 2)
+
+		while (shar != 1 && shar != 2)
 		{
-			cout << "Give or Take Card?\n";                                                //prompt to give or take card
+			cout << "Give or Take Card?\n";		//prompt to give or take card
 			cout << " 1) Give 2) Take\n";
-			cin >> shar;                                                                                //Player chooses which
-			if (shar == 1 || players[p].hand > 0)                                                //verify player has card to give
+			cin >> shar;		//Player chooses which
+			if (shar == 1)
 			{
-				cout << "\nPlayer's cards in hand:\n";
-				for (int i = 0; i < 7; i++)
+				do
 				{
-					if (players[p].hand[i] && players[p].hand[i]->status == 1)
+					cout << "Choose a player to give the " << currentCity->name << " card to .\n";
+					for (int i = 0; i < 4; i++)
 					{
-						cout << players[p].hand[i]->name << endl;
+						if (available[i])
+							cout << i + 1 << ". Player " << i + 1 << endl;
+					}
+					cin >> sharPlayer;
+				} while (sharPlayer > 0 && sharPlayer < 5 && available[sharPlayer - 1] != true);
+				for (int i = 0; i <= maxHand; i++)
+				{
+					if (this->hand[i] && this->hand[i]->name == this->currentCity->name)
+					{
+						for (int j = 0; j <= maxHand; j++)
+						{
+							if (hand[j] == NULL)
+							{
+								players[sharPlayer - 1].hand[j] = players[p].hand[i];
+								j = maxHand + 1;
+							}
+						}
+						players[p].hand[i] = NULL;
+						actions--;
+						cout << "Player " << p + 1 << " has given Player " << sharPlayer << " the " << currentCity->name << " card.\n";
+						return;
 					}
 				}
-				cout << "Choose which card to give (0-6)\n";
-				cin >> givCard;
-				if (givCard != 0 || givCard != 1 || givCard != 2 || givCard != 3 || givCard != 4 || givCard != 5 || givCard != 6)
-				{
-					cout << "Please choose a valid card #\n";
-				}
-				else
-				{
-					for (int j = 0; j <= maxHand; j++)
-					{
-						if (hand[j] == NULL)
-							players[sharPlayer].hand[j] = players[p].hand[givCard];
-						players[p].hand[givCard] = NULL;
-					}
-				}
+				cout << "Unable to give a card.";
 			}
-			if (shar == 2 || players[sharPlayer].hand > 0)                //verify player has card to take
+			else if (shar == 2)
 			{
-				cout << "\nPlayer's cards in hand:\n";
-				for (int i = 0; i < 7; i++)
+
+				for (sharPlayer = 0; sharPlayer < 4; sharPlayer++)
 				{
-					if (players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->status == 1)
+					if (available[sharPlayer])
 					{
-						cout << players[sharPlayer].hand[i]->name << endl;
+						for (int i = 0; i <= maxHand; i++)
+						{
+							if (players[sharPlayer].hand[i] && players[sharPlayer].hand[i]->name == players[sharPlayer].currentCity->name)
+							{
+								for (int j = 0; j <= maxHand; j++)
+								{
+									if (hand[j] == NULL)
+									{
+										players[p].hand[j] = players[sharPlayer].hand[i];
+										j = maxHand + 1;
+									}
+								}
+								players[sharPlayer].hand[i] = NULL;
+								actions--;
+								cout << "Player " << sharPlayer + 1 << " has given Player " << p + 1 << " the " << currentCity->name << " card.\n";
+								return;
+							}
+						}
 					}
 				}
-				cout << "Choose which card to take (0-6)\n";
-				cin >> takCard;
-				if (takCard != 0 || takCard != 1 || takCard != 2 || takCard != 3 || takCard != 4 || takCard != 5 || takCard != 6)
-				{
-					cout << "Please choose a valid card #\n";
-				}
-				else
-				{
-					for (int j = 0; j <= players[p].maxHand; j++)
-					{
-						if (players[p].hand[j] == NULL)
-							players[sharPlayer].hand[takCard] = NULL;
-						players[p].hand[j] = players[sharPlayer].hand[takCard];
-					}
-				}
+				cout << "Unable to recieve card.";
 			}
+			else if (shar == 0)
+				return;
 		}
-		actions--;                                                                                        //Decrease actions or back to actions menu
 	}
 
 	void cure(Disease d[], City city[])//Player discards 5 same color cards to cure disease of same color
@@ -484,6 +587,13 @@ public:
 		if (currentCity->researchStation == true)
 		{
 			int blu = 0, yel = 0, bla = 0, red = 0;
+			if (specialAbility == 2)
+			{
+				blu++;
+				yel++;
+				bla++;
+				red++;
+			}
 			for (int i = 0; i < 7; i++)
 			{
 				if (hand[i])
@@ -510,19 +620,29 @@ public:
 			}
 			if (blu >= 5 || yel >= 5 || bla >= 5 || red >= 5)
 			{
-				cout << "Discard 5 cards?";
+				cout << "Your hand:\n";
 				for (int i = 0; i < maxHand; i++) {
 					// displays only city cards
 					if (hand[i]) {
 						if (hand[i]->color != 0 && hand[i]->color != 5) {
-							cout << "  [" << i + 1 << "]  " << hand[i]->name << endl;
+							cout << "  [" << i + 1 << "]  " << hand[i]->name;
+							if (hand[i]->color == 1)
+								cout << "(Blue)";
+							else if (hand[i]->color == 2)
+								cout << "(Yellow)";
+							else if (hand[i]->color == 3)
+								cout << "(Black)";
+							else if (hand[i]->color == 4)
+								cout << "(Red)";
+							cout << endl;
 						}
 					}
 				}
 				cout << "1. Cure blue\n2. Cure yellow\n3. Cure black\n4. Cure red";
 				int option;
 				cin >> option;
-				if (option == 1 || option == 2 || option == 3 || option == 4) {
+				if ((option == 1 || option == 2 || option == 3 || option == 4) && d[option].status == 1)
+				{
 					int c = 0;
 					do {
 						for (int i = 0; i < maxHand; i++)
@@ -536,25 +656,34 @@ public:
 					} while (c < 5);
 					actions--;
 					d[option].status = 2;
+					cout << d[option].name << " disease cured!\n";
+					return;
 				}
+				else
+					cout << "Invalid choice.\n";
 			}
 		}
 	}
 
 	void pass()//Player does nothing for an action
-	{                                                                                                                //Alway shown
-		int pass = 0;                                                                                        //init pass choice
-		if (pass == 0)                                                                                //pass confirmation
+	{
+		int pass = 0;
+		if (pass == 0)
 		{
 			cout << "Are you sure you want to pass?\n";
 			cout << "1) Yes 2) No\n";
-			cin >> pass;                                                                                //pass choice
+			cin >> pass;
 		}
-		if (pass == 1)                                                                        //set actions to 0
+		if (pass == 1)
 		{
-				if (actions > 0)
+			if (actions > 0)
+			{
 				actions = 0;
+			}
 		}
+		//Always shown
 
+		//player confirmation
+		//decrease actions or back to actions menu
 	}
 };
